@@ -1,4 +1,4 @@
-# Snap Slider
+# 🥨 Snap Slider
 
 Simple JavaScript plugin to manage sliders using [CSS Scroll Snap](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scroll_Snap).
 

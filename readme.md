@@ -34,7 +34,7 @@ Snap Slider makes that as easy as adding a `data-snap-slider` attribute.
 1. Install the package.
 
 ```bash
-npm install --save @tannerhodges/snap-slider
+npm install @tannerhodges/snap-slider
 ```
 
 2. Import the package into your application script.

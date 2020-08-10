@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>🚧 HTML API</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- 💄 Styles -->
+    <link rel="stylesheet" href="./demo.css">
+    <link rel="stylesheet" href="./test.css">
+
+    <!-- ⚙️ Scripts -->
+    <script src="./snap-slider.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>🚧 HTML API</h1>
+      <ul class="example" data-snap-slider="test">
+        <li class="example__slide"><img src="./images/batman-sandwich.jpg" alt="" width="296" height="206"></li>
+        <li class="example__slide"><img src="./images/batman-artichokes.jpg" alt="" width="296" height="206"></li>
+        <li class="example__slide"><img src="./images/batman-dressing-room.jpg" alt="" width="296" height="206"></li>
+        <li class="example__slide"><img src="./images/batman-bomb.jpg" alt="" width="296" height="206"></li>
+      </ul>
+
+      <ul id="copy-id" class="example" data-snap-slider>
+        <li class="example__slide">Slide 1</li>
+        <li class="example__slide">Slide 2</li>
+        <li class="example__slide">Slide 3</li>
+        <li class="example__slide">Slide 4</li>
+      </ul>
+
+      <div id="default-id">
+        <ul class="example" data-snap-slider>
+          <li class="example__slide">Slide 1</li>
+          <li class="example__slide">Slide 2</li>
+          <li class="example__slide">Slide 3</li>
+          <li class="example__slide">Slide 4</li>
+        </ul>
+      </div>
+
+      <h2>Slides</h2>
+      <ul class="example"
+        data-snap-slider="slides"
+        data-snap-slider-slides=".example__slide">
+        <li id="ignore-me">NOT a slide element.</li>
+        <li class="example__slide">Slide 1</li>
+        <li class="example__slide">Slide 2</li>
+        <li class="example__slide">Slide 3</li>
+        <li class="example__slide">Slide 4</li>
+      </ul>
+
+      <h2>Align</h2>
+      <ul class="example disable-align"
+        data-snap-slider="align"
+        data-snap-slider-align="center">
+        <li class="example__slide">Slide 1</li>
+        <li class="example__slide">Slide 2</li>
+        <li class="example__slide">Slide 3</li>
+      </ul>
+
+      <h2>Navigation</h2>
+      <ul class="example-nav" data-snap-slider-nav="test">
+        <li><button class="example-nav__button" type="button">Previous</button></li>
+        <li><button class="example-nav__button" type="button">1</button></li>
+        <li><button class="example-nav__button" type="button">2</button></li>
+        <li><button class="example-nav__button" type="button">3</button></li>
+        <li><button class="example-nav__button" type="button">4</button></li>
+        <li><button class="example-nav__button" type="button">Next</button></li>
+      </ul>
+
+      <h2>Buttons</h2>
+      <div class="example" data-snap-slider="ignore-buttons">
+        <div class="example__slide">
+          <h3>Slide 1</h3>
+          <button type="button">4</button>
+        </div>
+        <button type="button">Prev</button>
+        <div class="example__slide"><h3>Slide 2</h3></div>
+        <button type="button">Next</button>
+        <div class="example__slide"><h3>Slide 3</h3></div>
+        <div class="example__slide"><h3>Slide 4</h3></div>
+      </div>
+
+      <div class="example"
+        data-snap-slider="specify-buttons"
+        data-snap-slider-slides=".example__slide"
+        data-snap-slider-buttons=".only-these-buttons">
+        <div class="example__slide">
+          <h3>Slide 1</h3>
+          <button class="not-this-button" type="button">3</button>
+          <button class="only-these-buttons" type="button">4</button>
+        </div>
+        <div class="example__slide"><h3>Slide 2</h3></div>
+        <button class="only-these-buttons" type="button">Next</button>
+        <div class="example__slide"><h3>Slide 3</h3></div>
+        <button class="only-these-buttons" type="button">Prev</button>
+        <div class="example__slide"><h3>Slide 4</h3></div>
+      </div>
+      <div class="example-nav" data-snap-slider-nav="specify-buttons">
+        <button class="example-nav__button">Prev</button>
+        <button class="example-nav__button only-these-buttons">2</button>
+        <button class="example-nav__button">Next</button>
+      </div>
+      <div id="ignore-specify-buttons" class="example-nav">
+        <button class="example-nav__button only-these-buttons">2</button>
+      </div>
+      <div id="override-buttons"
+        class="example-nav"
+        data-snap-slider-nav="specify-buttons"
+        data-snap-slider-buttons=".override-buttons">
+        <button class="example-nav__button override-buttons">Prev</button>
+        <button class="example-nav__button only-these-buttons">2</button>
+        <button class="example-nav__button override-buttons">Next</button>
+      </div>
+      <div id="ignore-override-buttons" class="example-nav">
+        <button class="example-nav__button override-buttons">2</button>
+      </div>
+
+      <br>
+
+      <div class="example" data-snap-slider="goto-buttons">
+        <div class="example__slide">
+          <h3>Slide 1</h3>
+          <button data-snap-slider-goto="4" type="button">4</button>
+        </div>
+        <div class="example__slide"><h3>Slide 2</h3></div>
+        <div class="example__slide"><h3>Slide 3</h3></div>
+        <div class="example__slide"><h3>Slide 4</h3></div>
+      </div>
+
+      <ul id="external-buttons" class="example-nav">
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="goto-buttons:prev">Previous</button></li>
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="goto-buttons:1">1</button></li>
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="goto-buttons:2">2</button></li>
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="goto-buttons:3">3</button></li>
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="goto-buttons:4">4</button></li>
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="goto-buttons:next">Next</button></li>
+      </ul>
+
+      <h2>Start</h2>
+      <ul class="example"
+        data-snap-slider="start"
+        data-snap-slider-start="middle">
+        <li class="example__slide">Slide 1</li>
+        <li class="example__slide">Slide 2</li>
+        <li class="example__slide">Slide 3</li>
+        <li class="example__slide">Slide 4</li>
+      </ul>
+
+      <h2>Loop</h2>
+      <ul class="example"
+        data-snap-slider="loop"
+        data-snap-slider-loop="true">
+        <li class="example__slide">Slide 1</li>
+        <li class="example__slide">Slide 2</li>
+        <li class="example__slide">Slide 3</li>
+        <li class="example__slide">Slide 4</li>
+      </ul>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "plugins": [
+    "stylelint-order"
+  ],
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-property-sort-order-smacss",
+  ],
+  "rules": {
+    "comment-empty-line-before": null,
+    "max-empty-lines": 3,
+    "no-descending-specificity": null,
+    "no-duplicate-selectors": null
+  }
+}

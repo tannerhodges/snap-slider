@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+
+    <title>📝 Upgrade Guide | 🥨 Snap Slider</title>
+    <meta name="description" content="How to upgrade to the latest version of Snap Slider.">
+
+    <!-- 💄 Styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Abel&display=swap">
+    <link rel="stylesheet" href="./demo.css">
+    <link rel="stylesheet" href="./diff.css">
+
+    <!-- ⚙️ Scripts -->
+    <script src="./snap-slider.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <h1>📝 Upgrade Guide</h1>
+      <p>If you're already using an older version of Snap Slider, here are some notes and examples to help you upgrade to the latest version.</p>
+
+      <h2>Upgrading to 2.0.0 from v1.x</h2>
+      <ul>
+        <li><strong>Convert JSON → Separate Attributes</strong>: Instead of defining all the slider options, <code>data-snap-slider</code> only defines the slider ID now. Each option has its own data attribute.</li>
+        <li><strong>Remove "off" Option</strong>: Instead of defining breakpoints in JavaScript, Snap Slider automatically responds to your CSS now, so turning a slider on/off should be entirely handled by CSS styles.</li>
+        <li><strong>Arrows & Pagination → Nav</strong>: Instead of targeting navigation elements from the slider, nav elements should target sliders using the <code>data-snap-slider-nav</code> attribute now. For example, remove <code>"pagination": ".example-pagination button"</code> from the slider and add <code>data-snap-slider-nav=".example-slider"</code> to the <em>pagination</em> element instead.</li>
+        <li><strong>Initial → Start</strong>: We renamed the <code>initial</code> option to <code>start</code>, and moved its HTML from the JSON config to the <code>data-snap-slider-start</code> attribute instead.</li>
+        <li><strong>Default Start = 1</strong>: Instead of defaulting to the middle slide, we default to slide 1 now. If needed, add <code>data-snap-slider-start="middle"</code> to any sliders that should still start in the middle.</li>
+        <li><strong>0-index → 1-index</strong>: Now the <code>current</code> slide index starts at 1 instead of 0, so if you want to goto the first slide you'd say <code>slider.goto(1)</code> instead of <code>slider.goto(0)</code>.</li>
+        <li><strong>New "goto" Function</strong>: We renamed the <code>goTo</code> method to all lowercase, <code>goto()</code>. We also changed the second parameter <code>immediately</code> to an object <code>options</code>. For example, <code>goTo(1, true)</code> becomes <code>goto(2, { immediate: true })</code>.</li>
+        <li><strong>Items → Slides</strong>: We renamed the <code>items</code> option to <code>slides</code>, and moved its HTML from the JSON config to the <code>data-snap-slider-slides</code> attribute.</li>
+        <li><strong>Auto-Initialize on DOM Ready</strong>: Instead of requiring extra JS to initialize sliders, Snap Slider v2 automatically inits any sliders with the <code>data-snap-slider</code> attribute on page load. If you're manually loading sliders that already have <code>data-snap-slider</code> attributes, consider removing those extra <code>new SnapSlider()</code> scripts.</li>
+      </ul>
+
+      <h3 style="margin-top: 3rem;">Example Diff</h3>
+<!-- <td class="blob-num blob-num-deletion empty-cell"></td>
+<td class="blob-num blob-num-addition empty-cell"></td> -->
+      <div class="scrollable">
+        <table class="diff-table">
+          <tbody>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">&lt;div class="slider demo-basic" data-snap-slider='{</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">  "off": "(min-width: 40em)",</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">  "pagination": ".demo-1-pagination button"</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">}'&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-addition"><span class="blob-code-inner blob-code-marker" data-code-marker="+">&lt;div class="slider demo-basic" data-snap-slider="demo-1"&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-context"><span class="blob-code-inner blob-code-marker" data-code-marker=" ">  &lt;section class="slider__item card"&gt;...&lt;/section&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-context"><span class="blob-code-inner blob-code-marker" data-code-marker=" ">  &lt;section class="slider__item card"&gt;...&lt;/section&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-context"><span class="blob-code-inner blob-code-marker" data-code-marker=" ">  &lt;section class="slider__item card"&gt;...&lt;/section&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-context"><span class="blob-code-inner blob-code-marker" data-code-marker=" ">&lt;/div&gt;&lt;!-- /.slider --&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-context"><span class="blob-code-inner blob-code-marker" data-code-marker=" "><br></td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">&lt;div class="slider-pagination demo-pagination demo-1-pagination"&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-addition"><span class="blob-code-inner blob-code-marker" data-code-marker="+">&lt;div class="slider-pagination demo-pagination demo-1-pagination"</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-addition"><span class="blob-code-inner blob-code-marker" data-code-marker="+">  data-snap-slider-nav="demo-1"&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-context"><span class="blob-code-inner blob-code-marker" data-code-marker=" ">  &lt;button type="button"&gt;1&lt;/button&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-context"><span class="blob-code-inner blob-code-marker" data-code-marker=" ">  &lt;button class="is-current" type="button"&gt;2&lt;/button&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-context"><span class="blob-code-inner blob-code-marker" data-code-marker=" ">  &lt;button type="button"&gt;2&lt;/button&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-context"><span class="blob-code-inner blob-code-marker" data-code-marker=" ">&lt;/div&gt;&lt;!-- /.slider-pagination --&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-"><br></td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">&lt;script&gt;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">  // Query Selector All (returns NodeList as Array)</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">  var qsa = function qsa(selector, context) {</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">    context = context || document;</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">    return Array.prototype.slice.call(context.querySelectorAll(selector));</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">  };</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-"><br></td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">  // Init all sliders on page load</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">  qsa('[data-snap-slider]').forEach(function (el) {</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">    new SnapSlider(el);</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">  });</td>
+            </tr>
+            <tr>
+              <td class="blob-code blob-code-deletion"><span class="blob-code-inner blob-code-marker" data-code-marker="-">&lt;/script&gt;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top: 3rem;">Other Changes</h3>
+      <ul>
+        <li><strong>jQuery Support</strong>: We add <code>$.fn.snapSlider()</code> out of the box! Just load Snap Slider after jQuery and voila!</li>
+        <li><strong>Removed Properties</strong>: Because they can be replaced with other properties, methods, etc., we've removed some properties from <code>SnapSlider</code> instances: <code>arrows</code>, <code>pagination</code>, and <code>previous</code>.</li>
+        <li><strong>New Event Callbacks</strong>: <code>load</code>, <code>change</code>, <code>change.click</code>, <code>change.scroll</code>, <code>change.keydown</code>, <code>change.focusin</code>, <code>scroll</code>, <code>scroll.start</code>, <code>scroll.end</code>.</li>
+        <li><strong>New Instance Methods</strong>: <code>getSlide()</code>, <code>getCurrentSlide()</code>, <code>goto()</code>, <code>addNav()</code>, <code>addGotoButtons()</code>, <code>update()</code>, <code>reset()</code>, <code>destroy()</code>, <code>on()</code>.</li>
+        <li><strong>New Static Methods</strong>: <code>SnapSlider.get()</code>, <code>SnapSlider.debug()</code>.</li>
+        <li><strong>New DOM Property</strong>: Attach <code>SnapSlider</code> prop to DOM elements for easy access.</li>
+        <li><strong>New Debugger</strong>: Call <code>SnapSlider.debug()</code> to easily debug slider elements on the page.</li>
+      </ul>
+
+      <h3 style="margin-top: 3rem;">Troubleshooting</h3>
+      <ul>
+        <li><strong>Uncaught DOMException</strong>: If you run into an error like <code>Failed to execute 'querySelectorAll' on 'Document': '[data-snap-slider="{}"]'</code>, you probably haven't converted your JSON config to separate attributes yet. Double check your <code>data-snap-slider</code> attributes and make sure they're simple strings (not JSON).</li>
+      </ul>
+
+      <h3 style="margin-top: 3rem;">Comparison Table</h3>
+      <div class="scrollable" style="width: max-content; max-width: 100%;">
+        <table cellpadding="5" cellspacing="0">
+          <thead>
+            <tr>
+              <th>v1</th>
+              <th>v2</th>
+            </tr>
+          </thead>
+          <tbody class="stripes-odd">
+            <tr><td><code>data-snap-slider='{}'</code></td><td><code>data-snap-slider="slider-id"</code></td></tr>
+            <tr><td>Option: <code>initial</code></td><td><code>start</code> / <code>data-snap-slider-start=""</code></td></tr>
+            <tr><td>Option: <code>items</code></td><td><code>slides</code> / <code>data-snap-slider-slides=""</code></td></tr>
+            <tr><td>Index: <code>0</code></td><td>Index: <code>1</code></td></tr>
+            <tr><td>Default slide: <code>middle</code></td><td>Default slide: <code>1</code></td></tr>
+            <tr><td>Option: <code>off</code></td><td>(removed)</td></tr>
+            <tr><td>Option: <code>arrows</code></td><td><code>data-snap-slider-nav</code></td></tr>
+            <tr><td>Option: <code>pagination</code></td><td><code>data-snap-slider-nav</code></td></tr>
+            <tr><td><code>slider.arrows</code></td><td>(removed)</td></tr>
+            <tr><td><code>slider.pagination</code></td><td>(removed)</td></tr>
+            <tr><td><code>slider.previous</code></td><td>(removed)</td></tr>
+            <tr><td><code>slider.currentItem</code></td><td><code>slider.getCurrentSlide()</code></td></tr>
+            <tr><td><code>slider.goTo(1, true)</code></td><td><code>slider.goto(1, { immediate: true })</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 3rem;">
+        <a href="./index.html">&laquo; Back to Docs</a>
+      </div>
+    </main>
+  </body>
+</html>

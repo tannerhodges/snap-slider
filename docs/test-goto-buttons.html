@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>🚧 Goto Buttons</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- 💄 Styles -->
+    <link rel="stylesheet" href="./demo.css">
+    <link rel="stylesheet" href="./test.css">
+
+    <!-- ⚙️ Scripts -->
+    <script src="./snap-slider.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <section id="standard">
+        <h1>🚧 Goto Buttons</h1>
+        <ul class="example" data-snap-slider="test">
+          <li class="example__slide"><img src="./images/batman-sandwich.jpg" alt="" width="296" height="206"></li>
+          <li class="example__slide"><img src="./images/batman-artichokes.jpg" alt="" width="296" height="206"></li>
+          <li class="example__slide"><img src="./images/batman-dressing-room.jpg" alt="" width="296" height="206"></li>
+          <li class="example__slide"><img src="./images/batman-bomb.jpg" alt="" width="296" height="206"></li>
+        </ul>
+
+        <ul id="auto-content" class="example-nav" data-snap-slider-nav="test">
+          <li><button class="example-nav__button" type="button">Previous</button></li>
+          <li><button class="example-nav__button" type="button">1</button></li>
+          <li><button class="example-nav__button" type="button">2</button></li>
+          <li><button class="example-nav__button" type="button">3</button></li>
+          <li><button class="example-nav__button" type="button">4</button></li>
+          <li><button class="example-nav__button" type="button">Next</button></li>
+        </ul>
+
+        <ul id="mixed-content" class="example-nav" data-snap-slider-nav="test">
+          <li><button class="example-nav__button" type="button">4</button></li>
+          <li><button class="example-nav__button" type="button">2</button></li>
+          <li><button class="example-nav__button" type="button">Next</button></li>
+          <li><button class="example-nav__button" type="button">1</button></li>
+          <li><button class="example-nav__button" type="button">3</button></li>
+          <li><button class="example-nav__button" type="button">Previous</button></li>
+        </ul>
+
+        <ul id="prev-terms" class="example-nav" data-snap-slider-nav="test">
+          <li><button class="example-nav__button" type="button">Prev</button></li>
+          <li><button class="example-nav__button" type="button">Back</button></li>
+          <li><button class="example-nav__button" type="button">Before</button></li>
+          <li><button class="example-nav__button" type="button">Left</button></li>
+          <li><button class="example-nav__button" type="button">Up</button></li>
+        </ul>
+
+        <ul id="prev-terms-class" class="example-nav" data-snap-slider-nav="test">
+          <li><button class="example-nav__button test-prev" type="button"></button></li>
+          <li><button class="example-nav__button test-back" type="button"></button></li>
+          <li><button class="example-nav__button test-before" type="button"></button></li>
+          <li><button class="example-nav__button test-left" type="button"></button></li>
+          <li><button class="example-nav__button test-up" type="button"></button></li>
+        </ul>
+
+        <ul id="next-terms" class="example-nav" data-snap-slider-nav="test">
+          <li><button class="example-nav__button" type="button">Next</button></li>
+          <li><button class="example-nav__button" type="button">Forward</button></li>
+          <li><button class="example-nav__button" type="button">After</button></li>
+          <li><button class="example-nav__button" type="button">Right</button></li>
+          <li><button class="example-nav__button" type="button">Down</button></li>
+        </ul>
+
+        <ul id="next-terms-class" class="example-nav" data-snap-slider-nav="test">
+          <li><button class="example-nav__button test-next" type="button"></button></li>
+          <li><button class="example-nav__button test-forward" type="button"></button></li>
+          <li><button class="example-nav__button test-after" type="button"></button></li>
+          <li><button class="example-nav__button test-right" type="button"></button></li>
+          <li><button class="example-nav__button test-down" type="button"></button></li>
+        </ul>
+
+        <ul id="override" class="example-nav" data-snap-slider-nav="test">
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="next">Previous</button></li>
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="4">1</button></li>
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="3">2</button></li>
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="2">3</button></li>
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="1">4</button></li>
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="prev">Next</button></li>
+        </ul>
+
+        <div id="target" class="example-nav">
+          <!-- Goto buttons can target sliders by their slider ID. -->
+          <button class="example-nav__button" type="button" data-snap-slider-goto="test:next">✅ Next</button>
+
+          <!-- If you're going to target a specific slider, you MUST also specify the index. -->
+          <button class="example-nav__button" type="button" data-snap-slider-goto="test">🚫 Next</button>
+        </div>
+      </section>
+
+      <div id="invalid" class="example-nav" data-snap-slider-nav="test">
+        <button class="example-nav__button" type="button" data-snap-slider-goto="fake">🚫 Fake</button>
+        <button class="example-nav__button" type="button" data-snap-slider-goto="-1">🚫 -1</button>
+        <button class="example-nav__button" type="button" data-snap-slider-goto="5">🚫 5</button>
+        <button class="example-nav__button" type="button" data-snap-slider-goto="999">🚫 999</button>
+      </div>
+
+      <section id="loop">
+        <h2>Loop Enabled</h2>
+        <ul class="example" data-snap-slider="loop" data-snap-slider-loop="true">
+          <li class="example__slide"><img src="./images/batman-sandwich.jpg" alt="" width="296" height="206"></li>
+          <li class="example__slide"><img src="./images/batman-artichokes.jpg" alt="" width="296" height="206"></li>
+          <li class="example__slide"><img src="./images/batman-dressing-room.jpg" alt="" width="296" height="206"></li>
+          <li class="example__slide"><img src="./images/batman-bomb.jpg" alt="" width="296" height="206"></li>
+        </ul>
+
+        <ul class="example-nav" data-snap-slider-nav="loop">
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="next">Previous</button></li>
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="4">1</button></li>
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="3">2</button></li>
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="2">3</button></li>
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="1">4</button></li>
+          <li><button class="example-nav__button" type="button" data-snap-slider-goto="prev">Next</button></li>
+        </ul>
+
+        <div>
+          <button class="example-nav__button" type="button" data-snap-slider-goto="loop:prev">Prev</button>
+          <button class="example-nav__button" type="button" data-snap-slider-goto="loop:next">Next</button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

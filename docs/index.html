@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+
+    <title>🥨 Snap Slider</title>
+    <meta name="description" content="Simple JavaScript plugin to manage sliders using CSS Scroll Snap.">
+
+    <!-- 💄 Styles -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bangers&family=Abel&display=swap">
+    <link rel="stylesheet" href="./demo.css">
+
+    <!-- ⚙️ Scripts -->
+    <script src="./snap-slider.min.js"></script>
+
+    <!-- ⚡️ And if you're a jQuery Power User... -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+    <script>// ... we thought of you too.
+      $.fn.snapSlider = function (options) {
+        return new SnapSlider(this, options);
+      };
+    </script>
+  </head>
+  <body>
+    <main>
+      <h1>🥨 Snap Slider</h1>
+      <p>Remember when sliders were simple?</p>
+      <p>When you could do whatever you wanted because your plugin wouldn't stop you?</p>
+      <p>That's what Snap Slider is all about.</p>
+
+      <h2 id="basic">💁‍♀️ Basic Example</h2>
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scroll_Snap/Basic_concepts" target="_blank" rel="noopener">CSS Scroll Snap</a> makes sliders as simple as a few lines of CSS, but you still need JavaScript for things like buttons and event handlers.</p>
+      <p>With Snap Slider, adding active classes, change events, and pagination is as easy as adding a <u>data-snap-slider</u> attribute to your HTML.</p>
+<pre><code>&lt;ul class=&quot;slider&quot; <span class="highlight">data-snap-slider=&quot;basic-example&quot;</span>&gt;
+  &lt;li class=&quot;slide&quot;&gt;Slide 1&lt;/li&gt;
+  &lt;li class=&quot;slide&quot;&gt;Slide 2&lt;/li&gt;
+  &lt;li class=&quot;slide&quot;&gt;Slide 3&lt;/li&gt;
+  &lt;li class=&quot;slide&quot;&gt;Slide 4&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+      <ul class="example" data-snap-slider="basic-example">
+        <li class="example__slide"><img src="./images/batman-sandwich.jpg" alt="" width="296" height="206"></li>
+        <li class="example__slide"><img src="./images/batman-artichokes.jpg" alt="" width="296" height="206"></li>
+        <li class="example__slide"><img src="./images/batman-dressing-room.jpg" alt="" width="296" height="206"></li>
+        <li class="example__slide"><img src="./images/batman-bomb.jpg" alt="" width="296" height="206"></li>
+      </ul>
+      <ul class="example-nav" data-snap-slider-nav="basic-example">
+        <li><button class="example-nav__button" type="button">Previous</button></li>
+        <li><button class="example-nav__button" type="button">1</button></li>
+        <li><button class="example-nav__button" type="button">2</button></li>
+        <li><button class="example-nav__button" type="button">3</button></li>
+        <li><button class="example-nav__button" type="button">4</button></li>
+        <li><button class="example-nav__button" type="button">Next</button></li>
+      </ul>
+      <h2 id="navigation">🗺 Navigation</h2>
+      <p>To add navigation, add a <u>data-snap-slider-nav</u> attribute to your nav container.</p>
+      <pre><code>&lt;ul <span class="highlight">data-snap-slider-nav=&quot;basic-example&quot;</span>&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot;&gt;Previous&lt;/button&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot;&gt;1&lt;/button&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot;&gt;2&lt;/button&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot;&gt;3&lt;/button&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot;&gt;4&lt;/button&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot;&gt;Next&lt;/button&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+      <p>Snap Slider is smart enough to pick up on numbers like 1, 2, 3, or common words like "previous" and "next" in your nav buttons.</p>
+      <p>But if you need to specify which buttons go where, just add the <u>data-snap-slider-goto</u> attribute.</p>
+<pre><code>&lt;ul data-snap-slider-nav=&quot;basic-example&quot;&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot; <span class="highlight">data-snap-slider-goto=&quot;prev&quot;</span>&gt;Previous&lt;/button&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot; <span class="highlight">data-snap-slider-goto=&quot;1&quot;</span>&gt;1&lt;/button&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot; <span class="highlight">data-snap-slider-goto=&quot;2&quot;</span>&gt;2&lt;/button&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot; <span class="highlight">data-snap-slider-goto=&quot;3&quot;</span>&gt;3&lt;/button&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot; <span class="highlight">data-snap-slider-goto=&quot;4&quot;</span>&gt;4&lt;/button&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;button type=&quot;button&quot; <span class="highlight">data-snap-slider-goto=&quot;next&quot;</span>&gt;Next&lt;/button&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+      <!-- <h2 id="different-widths">👨‍🎨 Different Widths</h2>
+      <ul class="example example--different" data-snap-slider="different-example">
+        <li class="example__slide">Slide 1</li>
+        <li class="example__slide">Slide 2</li>
+        <li class="example__slide">Slide 3</li>
+        <li class="example__slide">Slide 4</li>
+      </ul>
+      <ul class="example-nav" data-snap-slider-nav="different-example">
+        <li><button class="example-nav__button" type="button">Previous</button></li>
+        <li><button class="example-nav__button" type="button">1</button></li>
+        <li><button class="example-nav__button" type="button">2</button></li>
+        <li><button class="example-nav__button" type="button">3</button></li>
+        <li><button class="example-nav__button" type="button">4</button></li>
+        <li><button class="example-nav__button" type="button">Next</button></li>
+      </ul> -->
+
+      <h2 id="responsive">📺 Responsive</h2>
+      <p>Now how do I turn this off?</p>
+      <p>Say you have an element that needs to be a slider on mobile, but a grid on desktop.</p>
+      <p>Easy: just add CSS <u>overflow: hidden</u>.</p>
+      <ul class="example example--responsive" data-snap-slider="responsive-example">
+        <li class="example__slide">Slide 1</li>
+        <li class="example__slide">Slide 2</li>
+        <li class="example__slide">Slide 3</li>
+        <li class="example__slide">Slide 4</li>
+        <li class="example__slide">Slide 5</li>
+        <li class="example__slide">Slide 6</li>
+      </ul>
+      <ul class="example-nav example-nav--responsive" data-snap-slider-nav="responsive-example">
+        <li><button class="example-nav__button" type="button">1</button></li>
+        <li><button class="example-nav__button" type="button">2</button></li>
+        <li><button class="example-nav__button" type="button">3</button></li>
+        <li><button class="example-nav__button" type="button">4</button></li>
+        <li><button class="example-nav__button" type="button">5</button></li>
+        <li><button class="example-nav__button" type="button">6</button></li>
+      </ul>
+      <p>If your slider can't scroll, we won't do anything.</p>
+
+      <h2 id="accessibile">♿️ Accessibility</h2>
+      <p>Snap Slider follows the W3C's guide for <a href="https://www.w3.org/WAI/tutorials/carousels/" target="_blank" rel="noopener">accessible carousels</a>.</p>
+      <p>For example, users can easily focus and navigate between slides using tab, space, and arrow keys.</p>
+      <div class="example-wrapper example-wrapper--a11y">
+        <ul class="example example--a11y" data-snap-slider="a11y-example">
+          <li class="example__slide">
+            <h3>Space Teddy production reaches all-time high</h3>
+            <p>Teddies in Space Inc. has released outstanding numbers for the last solar year.</p>
+            <a href="#accessible">Full Annual Report</a>
+          </li>
+          <li class="example__slide">
+            <h3>New Space Teddy Announced!</h3>
+            <p>Space Teddy 6 wears an aluminum space suit. Sapphire glass eyes are first used universe-wide.</p>
+            <a href="#accessible">Everything about the new model</a>
+          </li>
+          <li class="example__slide">
+            <h3>Adventures of the Space Teddy</h3>
+            <p>Using modern HTML5 technologies, the latest installment of our game performs great on your computer, tablet, or mobile.</p>
+            <a href="#accessible">Play the Game here!</a>
+          </li>
+        </ul>
+        <ul class="example-nav example-nav--a11y-relative" data-snap-slider-nav="a11y-example">
+          <li><button class="example-nav__button example-nav__button--prev-arrow" type="button"><span class="u-visually-hidden">Previous</span></button></li>
+          <li><button class="example-nav__button example-nav__button--next-arrow" type="button"><span class="u-visually-hidden">Next</span></button></li>
+        </ul>
+        <ul class="example-nav example-nav--a11y" data-snap-slider-nav="a11y-example">
+          <li><button class="example-nav__button" type="button">1</button></li>
+          <li><button class="example-nav__button" type="button">2</button></li>
+          <li><button class="example-nav__button" type="button">3</button></li>
+        </ul>
+      </div>
+
+      <h2 id="center">🙈 Center "Peek" Slider</h2>
+      <p>Since Snap Slider doesn't care about styles, you can customize your slider however you want.</p>
+      <p>Making a centered "peeking" slider is as easy as a few lines of CSS.*</p>
+      <ul class="example example--center u-full-width@mobile"
+        data-snap-slider="center-example"
+        data-snap-slider-start="middle">
+        <li class="example__slide">Slide 1</li>
+        <li class="example__slide">Slide 2</li>
+        <li class="example__slide">Slide 3</li>
+      </ul>
+      <ul class="example-nav" data-snap-slider-nav="center-example">
+        <li><button class="example-nav__button" type="button">Left</button></li>
+        <li><button class="example-nav__button" type="button">1</button></li>
+        <li><button class="example-nav__button" type="button">2</button></li>
+        <li><button class="example-nav__button" type="button">3</button></li>
+        <li><button class="example-nav__button" type="button">Right</button></li>
+      </ul>
+      <p>*<strong>Note</strong>: "Peek" styles can be tricky. There's a wild debate over how & whether padding should be included in the scrollable overflow area.</p>
+      <!-- <p>For example, if you ever notice that the margin-right is missing from your last slide, it's because browsers <em>remove</em> it from the scrollable area.</p> -->
+      <p>We recommend a <u>display: inline-block</u> layout for peeking sliders. For example, see our code in <u>demo.css</u>.</p>
+      <p>For more details, read Chen Hui Jing's riveting article, <a href="https://www.chenhuijing.com/blog/flexbox-and-padding/" target="_blank" rel="noopener">Flexbox and padding</a>.</p>
+
+      <h2 id="vertical">🧛‍♂️ Vertical Slider</h2>
+      <p>But wait!</p>
+      <p>You'd rather scroll up & down?</p>
+      <p>Just tweak your CSS and voila, you've got yourself a vertically scrolling slider.</p>
+      <ul class="example example--vertical" data-snap-slider="vertical-example">
+        <li class="example__slide">Slide 1</li>
+        <li class="example__slide">Slide 2</li>
+        <li class="example__slide">Slide 3</li>
+      </ul>
+      <ul class="example-nav" data-snap-slider-nav="vertical-example">
+        <li><button class="example-nav__button" type="button">Up</button></li>
+        <li><button class="example-nav__button" type="button">1</button></li>
+        <li><button class="example-nav__button" type="button">2</button></li>
+        <li><button class="example-nav__button" type="button">3</button></li>
+        <li><button class="example-nav__button" type="button">Down</button></li>
+      </ul>
+
+      <h2 id="2d">😲 2D Slider</h2>
+      <p>That's right. Any way you scroll, we can handle it.*</p>
+      <ul class="example example--2d"
+        data-snap-slider="2d-example"
+        data-snap-slider-start="middle">
+        <li class="example__slide">Slide 1</li>
+        <li class="example__slide">Slide 2</li>
+        <li class="example__slide">Slide 3</li>
+        <li class="example__slide">Slide 4</li>
+        <li class="example__slide">Slide 5</li>
+        <li class="example__slide">Slide 6</li>
+        <li class="example__slide">Slide 7</li>
+        <li class="example__slide">Slide 8</li>
+        <li class="example__slide">Slide 9</li>
+      </ul>
+      <ul class="example-nav example-nav--2d" data-snap-slider-nav="2d-example">
+        <li><button class="example-nav__button" type="button">1</button></li>
+        <li><button class="example-nav__button" type="button">2</button></li>
+        <li><button class="example-nav__button" type="button">3</button></li>
+        <li><button class="example-nav__button" type="button">4</button></li>
+        <li><button class="example-nav__button" type="button">5</button></li>
+        <li><button class="example-nav__button" type="button">6</button></li>
+        <li><button class="example-nav__button" type="button">7</button></li>
+        <li><button class="example-nav__button" type="button">8</button></li>
+        <li><button class="example-nav__button" type="button">9</button></li>
+      </ul>
+      <ul class="example-nav u-text-align-center">
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="2d-example:prev">Before</button></li>
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="2d-example:next">After</button></li>
+      </ul>
+      <p>*<strong>Note</strong>: Depending on the browser, mandatory snapping in both directions can be very sensitive. For more details, see CSS Scroll Snap Module: <a href="https://www.w3.org/TR/css-scroll-snap-1/#snap-scope" target="_blank" rel="noopener">Snap Scope</a> and <a href="https://www.w3.org/TR/css-scroll-snap-1/#scroll-types" target="_blank" rel="noopener">Scroll Types</a>.</p>
+
+      <h2 id="nested">🤯 Nested Sliders</h2>
+      <p>We can hardly think of any practical uses for this, but what the hey. Why not?</p>
+      <div class="example example--nested u-full-width@mobile"
+        data-snap-slider="nested-example"
+        data-snap-slider-start="middle">
+        <div class="example__slide">
+          <button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-1:prev">Up</button>
+          <div class="nested-slider"
+            data-snap-slider="nested-example-inner-1"
+            data-snap-slider-start="middle">
+            <div class="nested-slider__slide">Slide 1</div>
+            <div class="nested-slider__slide">Slide 2</div>
+            <div class="nested-slider__slide">Slide 3</div>
+          </div>
+          <button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-1:next">Down</button>
+        </div>
+        <div class="example__slide">
+          <button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-2:prev">Up</button>
+          <div class="nested-slider"
+            data-snap-slider="nested-example-inner-2"
+            data-snap-slider-start="middle">
+            <div class="nested-slider__slide">Slide 4</div>
+            <div class="nested-slider__slide">Slide 5</div>
+            <div class="nested-slider__slide">Slide 6</div>
+          </div>
+          <button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-2:next">Down</button>
+        </div>
+        <div class="example__slide">
+          <button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-3:prev">Up</button>
+          <div class="nested-slider"
+            data-snap-slider="nested-example-inner-3"
+            data-snap-slider-start="middle">
+            <div class="nested-slider__slide">Slide 7</div>
+            <div class="nested-slider__slide">Slide 8</div>
+            <div class="nested-slider__slide">Slide 9</div>
+          </div>
+          <button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-3:next">Down</button>
+        </div>
+      </div>
+      <ul class="example-nav example-nav--nested" data-snap-slider-nav="nested-example">
+        <li><button class="example-nav__button" type="button">Left</button></li>
+        <li><button class="example-nav__button" type="button">1</button></li>
+        <li><button class="example-nav__button" type="button">2</button></li>
+        <li><button class="example-nav__button" type="button">3</button></li>
+        <li><button class="example-nav__button" type="button">Right</button></li>
+      </ul>
+      <ul class="example-nav example-nav--nested" data-snap-slider-nav="nested-example">
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-1:first">Left First</button></li>
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-2:first">Middle First</button></li>
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-3:first">Right First</button></li>
+      </ul>
+      <ul class="example-nav example-nav--nested" data-snap-slider-nav="nested-example">
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-1:last">Left Last</button></li>
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-2:last">Middle Last</button></li>
+        <li><button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-3:last">Right Last</button></li>
+      </ul>
+
+      <h2 id="debugging">🐛 Debugging</h2>
+      <p>Now, we know we said it'd be easy. But sometimes it isn't!</p>
+      <p>Use <u>SnapSlider.debug()</u> to find your way again.</p>
+<pre><code>// Running any of these...
+
+SnapSlider.debug('slider-id');
+SnapSlider.debug('.slider-class');
+SnapSlider.debug(element);
+SnapSlider.debug(elements);
+
+// will console.log()...
+
+┌──────────────┐
+|  🥨 Slider   |
+└──────────────┘
+
+  &lt;ul class=&#x200b;&quot;example&quot; data-snap-slider=&#x200b;&quot;example&quot;&gt;&#x200b;&hellip;&#x200b;&lt;/ul&gt;&#x200b;
+
+<details>
+  <summary>1. What slider is this?</summary><!--
+  --><u>Slider ID</u>
+
+  "example"
+
+  <u>Slider Object</u>
+
+  {options: {…}, terms: {…}, container: ul.example, id: "example", loop: false, …}
+
+</details><!--
+--><details>
+  <summary>2. What navs target this slider?</summary><!--
+   --><u>Navs</u>
+
+  [ul.example-nav]
+
+</details><!--
+--><details>
+  <summary>3. What buttons target this slider?</summary><!--
+  --><u>Buttons</u>
+
+  (6) [button.example-nav__button, button.example-nav__button.is-current, button.example-nav__button, button.example-nav__button, button.example-nav__button, button.example-nav__button]
+
+</details><!--
+--></code></pre>
+      <p>Click each question to reveal more details.</p>
+
+      <h2 id="resources">📚 Resources for CSS Scroll Snap</h2>
+      <ul>
+        <li><a href="https://caniuse.com/#feat=css-snappoints" target="_blank" rel="noopener">Can I use… CSS Scroll Snap</a></li>
+        <!-- <li><a href="https://www.chenhuijing.com/blog/flexbox-and-padding/" target="_blank" rel="noopener">Chen Hui Jing: Flexbox and padding</a></li> -->
+        <li><a href="https://css-tricks.com/practical-css-scroll-snapping/" target="_blank" rel="noopener">CSS-Tricks: Practical CSS Scroll Snapping</a></li>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scroll_Snap" target="_blank" rel="noopener">MDN: CSS Scroll Snap</a></li>
+        <li><a href="https://www.w3.org/TR/css-scroll-snap-1/" target="_blank" rel="noopener">W3C: CSS Scroll Snap Module</a></li>
+      </ul>
+    </main>
+  </body>
+</html>

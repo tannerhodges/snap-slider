@@ -1,0 +1,13 @@
+html {
+  /* 😬 Turns out smooth scrolling breaks Cypress tests. */
+  scroll-behavior: auto;
+}
+
+.example__slide h2 {
+  margin: 0;
+}
+
+.disable-align,
+.disable-align * {
+  scroll-snap-align: none;
+}

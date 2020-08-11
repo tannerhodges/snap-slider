@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2020-08-11
+
+### Fixed
+
+- Fix `data-snap-slider-align` overriding normal CSS behavior. Instead, leave the attribute blank by default. Only apply it when the slide's CSS snap align is either `none`, blank, or unsupported.
+
 ## [2.0.0] - 2020-08-10
 
 ### Added

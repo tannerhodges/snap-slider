@@ -360,8 +360,6 @@ var SnapSlider = /*#__PURE__*/function () {
     /**
      * Get alignment fallback for a given container.
      *
-     * Defaults to `start`.
-     *
      * @param  {Element}  container
      * @param  {String}   align
      * @return {String}
@@ -370,8 +368,8 @@ var SnapSlider = /*#__PURE__*/function () {
   }, {
     key: "getMaybeSetAlign",
     value: function getMaybeSetAlign(container, align) {
-      // Get align index from JavaScript, data attribute, or default to 'start'.
-      align = align || container.getAttribute('data-snap-slider-align') || 'start'; // Store value in data attribute.
+      // Get align index from JavaScript, data attribute, or leave blank.
+      align = align || container.getAttribute('data-snap-slider-align') || ''; // Store value in data attribute.
 
       container.setAttribute('data-snap-slider-align', align);
       return align;
@@ -421,10 +419,8 @@ var SnapSlider = /*#__PURE__*/function () {
     /**
      * Get the `scroll-snap-align` for a snap slider element.
      *
-     * Defaults to `start`.
-     *
-     * Different from `getMaybeSetAlign()` because it checks
-     * for overrides on each slide element.
+     * Falls back to `data-snap-slider-align` when no CSS
+     * is detected, otherwise defaults to `start`.
      *
      * @param  {Element}  el
      * @return {String}
@@ -433,7 +429,18 @@ var SnapSlider = /*#__PURE__*/function () {
   }, {
     key: "getSnapAlign",
     value: function getSnapAlign(el) {
-      return Object(_helpers_getClosestAttribute__WEBPACK_IMPORTED_MODULE_5__["default"])(el, 'data-snap-slider-align') || Object(_helpers_getStyle__WEBPACK_IMPORTED_MODULE_7__["default"])(el, 'scrollSnapAlign') || 'start';
+      // Get element's CSS align value.
+      var style = Object(_helpers_getStyle__WEBPACK_IMPORTED_MODULE_7__["default"])(el, 'scrollSnapAlign');
+      console.log('getSnapAlign', style, Object(_helpers_getClosestAttribute__WEBPACK_IMPORTED_MODULE_5__["default"])(el, 'data-snap-slider-align'), 'start'); // If browser supports Scroll Snap and slide
+      // has a non-empty value, return it.
+
+      if (style && style.indexOf('none') < 0) {
+        return style;
+      } // Otherwise, fallback to the slider's align attribute.
+      // Else assume "start" for everything.
+
+
+      return Object(_helpers_getClosestAttribute__WEBPACK_IMPORTED_MODULE_5__["default"])(el, 'data-snap-slider-align') || 'start';
     }
     /**
      * Get a specific slide element. Accepts any valid goto alias.

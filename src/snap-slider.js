@@ -244,15 +244,13 @@ class SnapSlider {
   /**
    * Get alignment fallback for a given container.
    *
-   * Defaults to `start`.
-   *
    * @param  {Element}  container
    * @param  {String}   align
    * @return {String}
    */
   getMaybeSetAlign(container, align) {
-    // Get align index from JavaScript, data attribute, or default to 'start'.
-    align = align || container.getAttribute('data-snap-slider-align') || 'start';
+    // Get align index from JavaScript, data attribute, or leave blank.
+    align = align || container.getAttribute('data-snap-slider-align') || '';
 
     // Store value in data attribute.
     container.setAttribute('data-snap-slider-align', align);
@@ -306,17 +304,27 @@ class SnapSlider {
   /**
    * Get the `scroll-snap-align` for a snap slider element.
    *
-   * Defaults to `start`.
-   *
-   * Different from `getMaybeSetAlign()` because it checks
-   * for overrides on each slide element.
+   * Falls back to `data-snap-slider-align` when no CSS
+   * is detected, otherwise defaults to `start`.
    *
    * @param  {Element}  el
    * @return {String}
    */
   getSnapAlign(el) {
+    // Get element's CSS align value.
+    const style = getStyle(el, 'scrollSnapAlign');
+
+    console.log('getSnapAlign', style, getClosestAttribute(el, 'data-snap-slider-align'), 'start');
+
+    // If browser supports Scroll Snap and slide
+    // has a non-empty value, return it.
+    if (style && style.indexOf('none') < 0) {
+      return style;
+    }
+
+    // Otherwise, fallback to the slider's align attribute.
+    // Else assume "start" for everything.
     return getClosestAttribute(el, 'data-snap-slider-align')
-      || getStyle(el, 'scrollSnapAlign')
       || 'start';
   }
 

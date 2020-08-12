@@ -430,8 +430,7 @@ var SnapSlider = /*#__PURE__*/function () {
     key: "getSnapAlign",
     value: function getSnapAlign(el) {
       // Get element's CSS align value.
-      var style = Object(_helpers_getStyle__WEBPACK_IMPORTED_MODULE_7__["default"])(el, 'scrollSnapAlign');
-      console.log('getSnapAlign', style, Object(_helpers_getClosestAttribute__WEBPACK_IMPORTED_MODULE_5__["default"])(el, 'data-snap-slider-align'), 'start'); // If browser supports Scroll Snap and slide
+      var style = Object(_helpers_getStyle__WEBPACK_IMPORTED_MODULE_7__["default"])(el, 'scrollSnapAlign'); // If browser supports Scroll Snap and slide
       // has a non-empty value, return it.
 
       if (style && style.indexOf('none') < 0) {

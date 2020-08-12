@@ -314,8 +314,6 @@ class SnapSlider {
     // Get element's CSS align value.
     const style = getStyle(el, 'scrollSnapAlign');
 
-    console.log('getSnapAlign', style, getClosestAttribute(el, 'data-snap-slider-align'), 'start');
-
     // If browser supports Scroll Snap and slide
     // has a non-empty value, return it.
     if (style && style.indexOf('none') < 0) {

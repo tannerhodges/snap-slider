@@ -4,7 +4,7 @@ Simple JavaScript plugin to manage sliders using [CSS Scroll Snap](https://devel
 
 ## ⚡️ Quick Start
 
-1. `npm install --save @tannerhodges/snap-slider`
+1. `npm install @tannerhodges/snap-slider`
 2. `import SnapSlider from '@tannerhodges/snap-slider';` _-- OR --_ `<script async src="snap-slider.min.js"></script>`
 3. Add `data-snap-slider` to your elements.
 

@@ -45,9 +45,15 @@ pre {
   -webkit-overflow-scroll: touch;
 }
 
-/* code {
-  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-} */
+pre a:focus,
+pre a:hover {
+  color: #aaa;
+}
+
+pre a,
+pre a:active {
+  color: #666;
+}
 
 .scrollable {
   overflow: auto;
@@ -67,15 +73,12 @@ pre {
   color: #333;
 }
 
-a {
-  color: blue;
-}
-
 a:focus,
 a:hover {
   color: lightblue;
 }
 
+a,
 a:active {
   color: blue;
 }
@@ -334,22 +337,18 @@ h2 {
 /* Center Example                 */
 /* ------------------------------ */
 
+/* ⚠️ Requires `.scrollfix` to work correctly. */
+/* Otherwise, the outer margin collapses. */
 .example--center {
   --peek: 3rem;
   --gutter: 1.5rem;
-  display: block;
-  font-size: 0;
-  white-space: nowrap;
 }
 
 .example--center .example__slide {
-  display: inline-block;
   width: calc(100% - var(--peek) * 2);
   height: 10rem;
   margin: 0 calc(var(--gutter) / 2);
   scroll-snap-align: center;
-  font-size: 1rem;
-  white-space: normal;
 }
 
 .example--center .example__slide:first-child {
@@ -482,6 +481,20 @@ h2 {
 /* ------------------------------ */
 /* Utilities                      */
 /* ------------------------------ */
+
+/**
+ * Fix overflow scroll ignoring margin/padding.
+ * @see https://chenhuijing.com/blog/flexbox-and-padding/
+ * @see https://itnext.io/horizontal-overflow-with-flexbox-css-64f530495303
+ */
+.scrollfix::before,
+.scrollfix::after {
+  content: '';
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1px;
+  margin-left: -1px;
+}
 
 @media (max-width: 767px) {
   .u-full-width\@mobile {

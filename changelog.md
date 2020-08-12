@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Recommend "scrollfix" hack to fix browsers removing the outer margin / padding from scrollable overflow areas.
+
 ## [2.0.2] - 2020-08-11
 
 - Remove leftover `console.log()` from the v2.0.1 align bugfix.

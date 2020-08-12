@@ -148,7 +148,7 @@
       <h2 id="center">🙈 Center "Peek" Slider</h2>
       <p>Since Snap Slider doesn't care about styles, you can customize your slider however you want.</p>
       <p>Making a centered "peeking" slider is as easy as a few lines of CSS.*</p>
-      <ul class="example example--center u-full-width@mobile"
+      <ul class="example example--center scrollfix u-full-width@mobile"
         data-snap-slider="center-example"
         data-snap-slider-start="middle">
         <li class="example__slide">Slide 1</li>
@@ -162,9 +162,25 @@
         <li><button class="example-nav__button" type="button">3</button></li>
         <li><button class="example-nav__button" type="button">Right</button></li>
       </ul>
-      <p>*<strong>Note</strong>: "Peek" styles can be tricky. There's a wild debate over how & whether padding should be included in the scrollable overflow area.</p>
-      <!-- <p>For example, if you ever notice that the margin-right is missing from your last slide, it's because browsers <em>remove</em> it from the scrollable area.</p> -->
-      <p>We recommend a <u>display: inline-block</u> layout for peeking sliders. For example, see our code in <u>demo.css</u>.</p>
+      <p>*<strong>Note</strong>: "Peek" styles can be tricky. Browsers remove the outer margin / padding from scrollable overflow areas by default, and there's a wild debate over how & whether to fix it.</p>
+      <p><em>But fear not!</em></p>
+
+      <h2 id="scrollfix">🔮 Scrollfix</h2>
+      <p>In the spirit of the late clearfix hack, here's how we trick browsers into including margin / padding in scrollable overflow areas.</p>
+      <p>We call it the "scrollfix" hack:</p>
+      <pre><code>/**
+ * Fix overflow scroll ignoring margin/padding.
+ * @see <a href="https://chenhuijing.com/blog/flexbox-and-padding/" target="_blank" rel="noopener" title="“Flexbox and padding” by Chen Hui Jing">https://chenhuijing.com/blog/flexbox-and-padding/</a>
+ * @see <a href="https://itnext.io/horizontal-overflow-with-flexbox-css-64f530495303" target="_blank" rel="noopener" title="“Horizontal Overflow With Flexbox CSS” by Amir Tugendhaft">https://itnext.io/horizontal-overflow-with-flexbox-css-64f530495303</a>
+ */
+.scrollfix::before,
+.scrollfix::after {
+  content: '';
+  display: inline-block;
+  flex: 0 0 auto;
+  width: 1px;
+  margin-left: -1px;
+}</code></pre>
       <p>For more details, read Chen Hui Jing's riveting article, <a href="https://www.chenhuijing.com/blog/flexbox-and-padding/" target="_blank" rel="noopener">Flexbox and padding</a>.</p>
 
       <h2 id="vertical">🧛‍♂️ Vertical Slider</h2>

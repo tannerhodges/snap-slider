@@ -49,6 +49,17 @@ Or, if you prefer, include the script in your HTML.
 <script async src="snap-slider.min.js"></script>
 ```
 
+3. Add data attributes to your CSS sliders.
+
+```html
+<ul class="slider" data-snap-slider="basic-example">
+  <li class="slide">...</li>
+  <li class="slide">...</li>
+  <li class="slide">...</li>
+  <li class="slide">...</li>
+</ul>
+```
+
 ## 👨‍🏫 HTML API
 
 ### Elements

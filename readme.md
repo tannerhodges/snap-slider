@@ -52,11 +52,20 @@ Or, if you prefer, include the script in your HTML.
 3. Add data attributes to your CSS sliders.
 
 ```html
-<ul class="slider" data-snap-slider="basic-example">
+<ul class="slider" data-snap-slider="example">
   <li class="slide">...</li>
   <li class="slide">...</li>
   <li class="slide">...</li>
   <li class="slide">...</li>
+</ul>
+
+<ul class="slider-nav" data-snap-slider-nav="example">
+  <li><button type="button">Previous</button></li>
+  <li><button type="button">1</button></li>
+  <li><button type="button">2</button></li>
+  <li><button type="button">3</button></li>
+  <li><button type="button">4</button></li>
+  <li><button type="button">Next</button></li>
 </ul>
 ```
 

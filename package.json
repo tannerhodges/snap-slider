@@ -61,7 +61,7 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-cypress": "^2.11.1",
     "eslint-plugin-import": "^2.22.0",
-    "postcss": "^7.0.32",
+    "postcss": "^8.2.10",
     "postcss-cli": "^7.1.1",
     "start-server-and-test": "^1.11.3",
     "stylelint": "^13.6.1",

@@ -1631,10 +1631,6 @@ if (typeof $ !== 'undefined') {
 
 // Auto-init once the DOM is ready.
 onReady(() => {
-  // Init polyfills.
-  elementClosest(window);
-  smoothscroll.polyfill();
-
   // Initialize all sliders with data attributes.
   qsa('[data-snap-slider]').forEach((el) => new SnapSlider(el));
 

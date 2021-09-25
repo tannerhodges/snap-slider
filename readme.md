@@ -81,8 +81,6 @@ Or, if you prefer, include the script in your HTML.
 ### Options
 
 - `data-snap-slider-slides` - By default, Snap Slider assumes all the container's children are slides. If you have non-slide elements in your slider, add this attribute to the container to specify which elements should be treated as slides.
-- `data-snap-slider-align="<ALIGN>"` - Snap Slider checks each slide's CSS `scroll-snap-align` to calculate its scroll position, but older browsers fail to return this value. If you need to support `center` or `end` alignments in Internet Explorer, add this attribute to a container or slide to specify its alignment.
-    - Possible values: `start`, `end`, or `center`.
 - `data-snap-slider-start="<SLIDE>"` - Sliders start on slide 1 by default. Add this attribute to a container to specify a different slide to start on.
     - Possible values: Numbers (starting at 1), `first`, `middle`, `last`.
 - `data-snap-slider-loop="<BOOLEAN>"` - Previous/next buttons are disabled on the first/last slides by default. Add this attribute to a container to enable them to loop around to the other end of the slider (e.g., clicking a previous button on slide 1 will goto the last slide).
@@ -111,10 +109,6 @@ const slider = new SnapSlider(
     //   Useful if you have non-slide elements in your container.
     //   If empty, defaults to `container.children`.
     slides: '',
-
-    // `options.align` - String to specify fallback alignment for older browsers.
-    //   Mimics `scroll-snap-align` for browsers that don't support CSS Scroll Snap.
-    align: '',
 
     // `options.nav` - String selector to target nav elements.
     //   Looks for matches across the whole document.
@@ -157,7 +151,6 @@ const slider = new SnapSlider(
 
 ### Properties
 
-- `align` - What's this slider's CSS `scroll-snap-align`?
 - `callbacks` - Functions to fire for each slider event.
 - `container` - Container element.
 - `current` - Index of current slide. Values start at 1.

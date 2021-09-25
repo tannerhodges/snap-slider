@@ -152,22 +152,6 @@ describe('JS API', () => {
       });
     });
 
-    it('can specify the fallback alignment for older browsers', () => {
-      // Init the slider, but specify which elements should be considered slides.
-      cy.initSlider('.example', {
-        id: 'test',
-        align: 'end',
-      });
-
-      // Make sure the real slides are tracked, but not the non-slide element.
-      cy.getSlider('test').then(($el) => {
-        const slider = $el.get(0).SnapSlider;
-        const align = slider.container.getAttribute('data-snap-slider-align');
-
-        expect(align).to.equal('end');
-      });
-    });
-
     it('inits nav elements', () => {
       cy.initSlider('.example', {
         id: 'test',

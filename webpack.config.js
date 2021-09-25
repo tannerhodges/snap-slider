@@ -14,8 +14,7 @@ const common = {
   },
   devtool: false,
   devServer: {
-    contentBase: './docs',
-    watchContentBase: true,
+    static: ['docs'],
   },
   stats: {
     modules: false,
@@ -50,7 +49,7 @@ const common = {
 // Bundle Analyzer
 const analyzer = new BundleAnalyzerPlugin({
   analyzerMode: 'static',
-  openAnalyzer: process.env.TEST !== 'true',
+  openAnalyzer: false, // process.env.TEST !== 'true',
 });
 
 // Build Settings
@@ -71,9 +70,10 @@ liteMin.mode = 'production';
 liteMin.devtool = 'source-map';
 liteMin.plugins = [analyzer];
 
+// TODO: Force `npm start` to only run one build.
 module.exports = [
   full,
-  fullMin,
-  lite,
-  liteMin,
+  // fullMin,
+  // lite,
+  // liteMin,
 ];

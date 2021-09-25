@@ -14,17 +14,37 @@ let nextSliderNumber = 1;
  * @class
  */
 class SnapSlider {
-  constructor(el) {
-    this.container = el;
+  /**
+   * New Snap Slider.
+   *
+   * See `init()` for a full breakdown of `options`.
+   *
+   * @param  {String|Element|Array}  container
+   * @param  {Object}                options
+   * @constructor
+   */
+  constructor(container, options = {}) {
+    // Fill default options.
+    this.options = {
+      id: '',
+      slides: '',
+      ...options,
+    };
 
-    this.id = this.getMaybeSetID(this.container);
+    // Get container element.
+    this.container = getElements(container).shift();
 
-    // TODO: Update element refs on `update()`.
-    this.slides = this.getMaybeSetSlides(this.container);
+    // Set slider ID.
+    this.id = this.getMaybeSetID(this.container, this.options.id);
 
+    // Get slides.
+    this.slides = this.getMaybeSetSlides(this.container, this.options.slides);
+
+    // Get navs.
     this.navs = qsa(`[data-snap-slider-nav="${this.id}"]`).forEach((nav) => this.addNav(nav));
 
-    // TODO: Helper function?
+    // Get buttons.
+    // TODO: Button helper function?
     const buttonSelector = this.container.getAttribute('data-snap-slider-buttons');
     if (buttonSelector) {
       const buttons = qsa(buttonSelector, this.container);
@@ -71,9 +91,20 @@ class SnapSlider {
     this.container.classList.add('has-loaded');
   }
 
-  getMaybeSetID(container) {
+  /**
+   * Get and maybe set a slider's ID on the closest container element.
+   *
+   * If no ID was specified, generates a fallback ID.
+   *
+   * @param  {Element}  container
+   * @param  {String}   id
+   * @return {String}
+   */
+  getMaybeSetID(container, id) {
     // Either use the ID we were given or the ID already on the container.
-    let id = container.getAttribute('data-snap-slider') || container.id;
+    id = id
+      || container.getAttribute('data-snap-slider')
+      || container.id;
 
     // If we don't have an ID, make one up and increment our internal
     // counter for the next slider.
@@ -89,15 +120,32 @@ class SnapSlider {
     return id;
   }
 
-  getMaybeSetSlides(container) {
+  /**
+   * Get all slide elements for a given container.
+   *
+   * Defaults to container's children.
+   *
+   * @param  {Element}  container
+   * @param  {String}   selector
+   * @return {Array}
+   */
+  getMaybeSetSlides(container, selector) {
     // Get selector from JavaScript or data attribute.
-    const selector = container.getAttribute('data-snap-slider-slides');
+    selector = selector && typeof selector === 'string'
+      ? selector
+      : container.getAttribute('data-snap-slider-slides');
+
+    // Store value in data attribute.
+    container.setAttribute('data-snap-slider-slides', selector || '');
 
     // If selector exists, use those elements. Otherwise,
     // assume the container's immediate children are slides.
     const slides = selector
       ? getElements(selector, container)
       : [...container.children];
+
+    // Ensure all slides are focusable but not tabbable.
+    slides.forEach((slide) => slide.setAttribute('tabindex', '-1'));
 
     // Return array of slides.
     return slides;
@@ -341,6 +389,22 @@ class SnapSlider {
 
     // Go to slide.
     slider.goto(index, {}, event);
+  }
+
+  /**
+   * Destroy this slider. Stop any active transitions, remove its event
+   * listeners, and delete it from our internal array of slider instances.
+   *
+   * @return {void}
+   */
+  destroy() {
+    // Stop events, observers, etc.
+    this.waitToUpdateCurrent.cancel();
+    this.observer.disconnect();
+
+    // Remove references to this slider.
+    delete this.container.SnapSlider;
+    delete window._SnapSliders[this.id];
   }
 }
 

@@ -28,6 +28,7 @@ class SnapSlider {
     this.options = {
       id: '',
       slides: '',
+      nav: '',
       ...options,
     };
 
@@ -41,7 +42,13 @@ class SnapSlider {
     this.slides = this.getMaybeSetSlides(this.container, this.options.slides);
 
     // Get navs.
-    this.navs = qsa(`[data-snap-slider-nav="${this.id}"]`).forEach((nav) => this.addNav(nav));
+    // TODO: Nav helper function?
+    this.navs = qsa(
+      [
+        `[data-snap-slider-nav="${this.id}"]`,
+        this.options.nav,
+      ].filter((selector) => selector).join(', '),
+    ).map((nav) => this.addNav(nav));
 
     // Get buttons.
     // TODO: Button helper function?
@@ -152,6 +159,11 @@ class SnapSlider {
   }
 
   addNav(el) {
+    // Set a data attribute assigning the nav to this slider.
+    el.setAttribute('data-snap-slider-nav', this.id);
+
+    // Get button selectors from data attribute or default to 'button'.
+    // NOTE: Allow the nav's data attribute to override the parent container's options.
     const buttonSelector = el.getAttribute('data-snap-slider-buttons')
       || this.container.getAttribute('data-snap-slider-buttons')
       || 'button';
@@ -161,6 +173,8 @@ class SnapSlider {
     const buttonCounter = { index: 1 };
 
     buttons.forEach((button) => this.addGotoButton(button, buttonCounter));
+
+    return el;
   }
 
   addGotoButton(button, counter = { index: 1 }) {

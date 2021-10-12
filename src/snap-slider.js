@@ -33,6 +33,7 @@ class SnapSlider {
       prev: '',
       next: '',
       start: 0,
+      loop: false,
       ...options,
     };
 
@@ -78,7 +79,7 @@ class SnapSlider {
     this.goto(this.current, { immediate: true });
 
     // Loop.
-    this.loop = this.container.getAttribute('data-snap-slider-loop') === 'true';
+    this.loop = this.options.loop || this.container.getAttribute('data-snap-slider-loop') === 'true';
 
     // Events.
     this.waitToUpdateCurrent = debounce(
@@ -298,19 +299,21 @@ class SnapSlider {
       }
     });
 
-    // Prev
-    // TODO: Add other terms to support prev/next buttons.
-    if (this.slides[0].classList.contains('is-visible')) {
-      this.buttonsPrev.forEach((button) => button.classList.add('is-disabled'));
-    } else {
-      this.buttonsPrev.forEach((button) => button.classList.remove('is-disabled'));
-    }
+    // Disable relative goto buttons.
+    if (!this.loop) {
+      // Prev.
+      if (this.slides[0].classList.contains('is-visible')) {
+        this.buttonsPrev.forEach((button) => button.classList.add('is-disabled'));
+      } else {
+        this.buttonsPrev.forEach((button) => button.classList.remove('is-disabled'));
+      }
 
-    // Next
-    if (this.slides[this.slides.length - 1].classList.contains('is-visible')) {
-      this.buttonsNext.forEach((button) => button.classList.add('is-disabled'));
-    } else {
-      this.buttonsNext.forEach((button) => button.classList.remove('is-disabled'));
+      // Next.
+      if (this.slides[this.slides.length - 1].classList.contains('is-visible')) {
+        this.buttonsNext.forEach((button) => button.classList.add('is-disabled'));
+      } else {
+        this.buttonsNext.forEach((button) => button.classList.remove('is-disabled'));
+      }
     }
 
     // TODO: Add other callbacks for "change" events.

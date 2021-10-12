@@ -29,6 +29,10 @@ class SnapSlider {
       id: '',
       slides: '',
       nav: '',
+      buttons: '',
+      prev: '',
+      next: '',
+      start: 0,
       ...options,
     };
 
@@ -42,23 +46,22 @@ class SnapSlider {
     this.slides = this.getMaybeSetSlides(this.container, this.options.slides);
 
     // Get navs.
-    // TODO: Nav helper function?
     this.navs = qsa(
-      [
-        `[data-snap-slider-nav="${this.id}"]`,
-        this.options.nav,
-      ].filter((selector) => selector).join(', '),
-    ).map((nav) => this.addNav(nav));
+      [`[data-snap-slider-nav="${this.id}"]`, this.options.nav]
+        .filter((selector) => selector)
+        .join(', '),
+    ).map((nav) => this.addNav(nav, { buttons: this.options.buttons }));
 
     // Get buttons.
-    // TODO: Button helper function?
-    const buttonSelector = this.container.getAttribute('data-snap-slider-buttons');
+    const buttonSelector = this.options.buttons
+      || this.container.getAttribute('data-snap-slider-buttons');
     if (buttonSelector) {
       const buttons = qsa(buttonSelector, this.container);
       const buttonCounter = { index: 1 };
       buttons.forEach((button) => this.addGotoButton(button, buttonCounter));
     }
 
+    // Keep track of buttons.
     this.buttons = this.getButtons();
 
     // this.buttonsFirst = this.buttons.filter((button) => this.isRelative(button, 'first'));
@@ -68,8 +71,9 @@ class SnapSlider {
     this.buttonsNext = this.buttons.filter((button) => this.isRelative(button, 'next'));
 
     // Start.
-    // TODO: Should we rename `start` to `current`?
-    const start = this.container.getAttribute('data-snap-slider-start') || 1;
+    const start = this.options.start
+      || this.container.getAttribute('data-snap-slider-start')
+      || 1;
     this.current = this.getIndexNumber(start);
     this.goto(this.current, { immediate: true });
 
@@ -162,13 +166,26 @@ class SnapSlider {
     // Set a data attribute assigning the nav to this slider.
     el.setAttribute('data-snap-slider-nav', this.id);
 
-    // Get button selectors from data attribute or default to 'button'.
+    // Get button selectors from JavaScript, data attributes, or default to 'button'.
     // NOTE: Allow the nav's data attribute to override the parent container's options.
-    const buttonSelector = el.getAttribute('data-snap-slider-buttons')
+    const buttonSelector = this.options.buttons
+      || el.getAttribute('data-snap-slider-buttons')
       || this.container.getAttribute('data-snap-slider-buttons')
       || 'button';
+    const prevSelector = this.options.prev
+      || el.getAttribute('data-snap-slider-prev')
+      || this.container.getAttribute('data-snap-slider-prev');
+    const nextSelector = this.options.next
+      || el.getAttribute('data-snap-slider-next')
+      || this.container.getAttribute('data-snap-slider-next');
 
-    const buttons = qsa(buttonSelector, el);
+    // Get buttons.
+    const buttons = qsa(
+      [buttonSelector, prevSelector, nextSelector]
+        .filter((selector) => selector)
+        .join(', '),
+      el,
+    );
 
     const buttonCounter = { index: 1 };
 
@@ -180,6 +197,16 @@ class SnapSlider {
   addGotoButton(button, counter = { index: 1 }) {
     // Skip buttons that already have goto attributes.
     if (button.hasAttribute('data-snap-slider-goto')) {
+      return;
+    }
+
+    // Custom prev/next buttons.
+    if (this.options.prev && button.matches(this.options.prev)) {
+      button.setAttribute('data-snap-slider-goto', 'prev');
+      return;
+    }
+    if (this.options.next && button.matches(this.options.next)) {
+      button.setAttribute('data-snap-slider-goto', 'next');
       return;
     }
 
@@ -348,7 +375,7 @@ class SnapSlider {
     return this.slides[this.current - 1];
   }
 
-  goto(index, options = {}, event) {
+  goto(index, options = {}) {
     index = this.getIndexNumber(index);
 
     const slide = this.slides[index - 1];
@@ -370,7 +397,6 @@ class SnapSlider {
       scrollOptions.behavior = 'smooth';
     }
 
-    // TODO: Better way to decide whether has clicked? Assuming there's an event?
     this.setCurrentAndWait(index, true);
 
     this.container.scroll(scrollOptions);
@@ -402,7 +428,7 @@ class SnapSlider {
     }
 
     // Go to slide.
-    slider.goto(index, {}, event);
+    slider.goto(index);
   }
 
   /**

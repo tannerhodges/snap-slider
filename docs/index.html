@@ -41,7 +41,7 @@
   &lt;li class=&quot;slide&quot;&gt;Slide 3&lt;/li&gt;
   &lt;li class=&quot;slide&quot;&gt;Slide 4&lt;/li&gt;
 &lt;/ul&gt;</code></pre>
-      <ul class="example" data-snap-slider="basic-example">
+      <ul class="example hide-scrollbars" data-snap-slider="basic-example">
         <li class="example__slide"><img src="./images/batman-sandwich.jpg" alt="" width="296" height="206"></li>
         <li class="example__slide"><img src="./images/batman-artichokes.jpg" alt="" width="296" height="206"></li>
         <li class="example__slide"><img src="./images/batman-dressing-room.jpg" alt="" width="296" height="206"></li>
@@ -77,7 +77,7 @@
 &lt;/ul&gt;</code></pre>
 
       <!-- <h2 id="different-widths">👨‍🎨 Different Widths</h2>
-      <ul class="example example--different" data-snap-slider="different-example">
+      <ul class="example example--different hide-scrollbars" data-snap-slider="different-example">
         <li class="example__slide">Slide 1</li>
         <li class="example__slide">Slide 2</li>
         <li class="example__slide">Slide 3</li>
@@ -96,7 +96,7 @@
       <p>Now how do I turn this off?</p>
       <p>Say you have an element that needs to be a slider on mobile, but a grid on desktop.</p>
       <p>Easy: just add CSS <u>overflow: hidden</u>.</p>
-      <ul class="example example--responsive" data-snap-slider="responsive-example">
+      <ul class="example example--responsive hide-scrollbars" data-snap-slider="responsive-example">
         <li class="example__slide">Slide 1</li>
         <li class="example__slide">Slide 2</li>
         <li class="example__slide">Slide 3</li>
@@ -118,7 +118,7 @@
       <p>Snap Slider follows the W3C's guide for <a href="https://www.w3.org/WAI/tutorials/carousels/" target="_blank" rel="noopener">accessible carousels</a>.</p>
       <p>For example, users can easily focus and navigate between slides using tab, space, and arrow keys.</p>
       <div class="example-wrapper example-wrapper--a11y">
-        <ul class="example example--a11y" data-snap-slider="a11y-example">
+        <ul class="example example--a11y hide-scrollbars" data-snap-slider="a11y-example">
           <li class="example__slide">
             <h3>Space Teddy production reaches all-time high</h3>
             <p>Teddies in Space Inc. has released outstanding numbers for the last solar year.</p>
@@ -149,7 +149,7 @@
       <h2 id="center">🙈 Center "Peek" Slider</h2>
       <p>Since Snap Slider doesn't care about styles, you can customize your slider however you want.</p>
       <p>Making a centered "peeking" slider is as easy as a few lines of CSS.*</p>
-      <ul class="example example--center scrollfix u-full-width@mobile"
+      <ul class="example example--center scrollfix u-full-width@mobile hide-scrollbars"
         data-snap-slider="center-example"
         data-snap-slider-start="middle">
         <li class="example__slide">Slide 1</li>
@@ -189,7 +189,7 @@
       <p>But wait!</p>
       <p>You'd rather scroll up & down?</p>
       <p>Just tweak your CSS and voila, you've got yourself a vertically scrolling slider.</p>
-      <ul class="example example--vertical" data-snap-slider="vertical-example">
+      <ul class="example example--vertical hide-scrollbars" data-snap-slider="vertical-example">
         <li class="example__slide">Slide 1</li>
         <li class="example__slide">Slide 2</li>
         <li class="example__slide">Slide 3</li>
@@ -204,7 +204,7 @@
 
       <h2 id="2d">😲 2D Slider</h2>
       <p>That's right. Any way you scroll, we can handle it.*</p>
-      <ul class="example example--2d"
+      <ul class="example example--2d hide-scrollbars"
         data-snap-slider="2d-example"
         data-snap-slider-start="middle">
         <li class="example__slide">Slide 1</li>
@@ -236,12 +236,12 @@
 
       <h2 id="nested">🤯 Nested Sliders</h2>
       <p>We can hardly think of any practical uses for this, but what the hey. Why not?</p>
-      <div class="example example--nested u-full-width@mobile"
+      <div class="example example--nested u-full-width@mobile hide-scrollbars"
         data-snap-slider="nested-example"
         data-snap-slider-start="middle">
         <div class="example__slide">
           <button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-1:prev">Up</button>
-          <div class="nested-slider"
+          <div class="nested-slider hide-scrollbars"
             data-snap-slider="nested-example-inner-1"
             data-snap-slider-start="middle">
             <div class="nested-slider__slide">Slide 1</div>
@@ -252,7 +252,7 @@
         </div>
         <div class="example__slide">
           <button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-2:prev">Up</button>
-          <div class="nested-slider"
+          <div class="nested-slider hide-scrollbars"
             data-snap-slider="nested-example-inner-2"
             data-snap-slider-start="middle">
             <div class="nested-slider__slide">Slide 4</div>
@@ -263,7 +263,7 @@
         </div>
         <div class="example__slide">
           <button class="example-nav__button" type="button" data-snap-slider-goto="nested-example-inner-3:prev">Up</button>
-          <div class="nested-slider"
+          <div class="nested-slider hide-scrollbars"
             data-snap-slider="nested-example-inner-3"
             data-snap-slider-start="middle">
             <div class="nested-slider__slide">Slide 7</div>

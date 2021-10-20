@@ -483,6 +483,15 @@ h2 {
 /* ------------------------------ */
 
 /**
+ * Hide scrollbars in all major browsers.
+ * @see https://stackoverflow.com/a/38994837
+ */
+/* Chrome/Safari */
+.hide-scrollbars::-webkit-scrollbar { width: 0; }
+/* Firefox */
+.hide-scrollbars { scrollbar-width: none; }
+
+/**
  * Fix overflow scroll ignoring margin/padding.
  * @see https://chenhuijing.com/blog/flexbox-and-padding/
  * @see https://itnext.io/horizontal-overflow-with-flexbox-css-64f530495303

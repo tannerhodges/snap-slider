@@ -94,7 +94,7 @@ describe('Goto Buttons', () => {
       // Slide to the 3rd item.
       // NOTE: Add `duration` so Intersection Observer fires.
       // @see https://github.com/cypress-io/cypress/issues/3848#issuecomment-478132607
-      cy.getSlider('test').children(':nth-child(3)').scrollIntoView({ duration: 1000 });
+      cy.getSlider('test').children(':nth-child(3)').scrollIntoView({ duration: 100 });
 
       // Current buttons should have the class.
       cy.get('#standard [data-snap-slider-goto*="3"]')

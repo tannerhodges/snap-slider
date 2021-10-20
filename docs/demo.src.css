@@ -199,6 +199,10 @@ h2 {
   touch-action: manipulation;
 }
 
+.example-nav__button.is-visible {
+  background: lightgray;
+}
+
 .example-nav__button.is-current {
   background: blue;
   color: white;

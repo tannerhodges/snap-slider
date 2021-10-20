@@ -102,6 +102,10 @@ describe('HTML API', () => {
       .should('not.have.attr', 'data-snap-slider-goto');
   });
 
+  // TODO: Prev/next buttons.
+  // data-snap-slider-prev
+  // data-snap-slider-next
+
   it('`[data-snap-slider-goto="<SLIDE>"]` inits goto buttons in a container or nav element', () => {
     // Make sure slider hasn't scrolled yet.
     cy.getSlider('goto-buttons').invoke('scrollLeft').should('equal', 0);

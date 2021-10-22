@@ -73,7 +73,7 @@ liteMin.plugins = [analyzer];
 // TODO: Force `npm start` to only run one build.
 module.exports = [
   full,
-  // fullMin,
-  // lite,
-  // liteMin,
+  fullMin,
+  lite,
+  liteMin,
 ];

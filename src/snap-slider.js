@@ -486,15 +486,15 @@ class SnapSlider {
 
     // Get button selectors from JavaScript, data attributes, or default to 'button'.
     // NOTE: Allow the nav's data attribute to override the parent container's options.
-    const buttonSelector = this.options.buttons
-      || nav.getAttribute('data-snap-slider-buttons')
+    const buttonSelector = nav.getAttribute('data-snap-slider-buttons')
+      || this.options.buttons
       || this.container.getAttribute('data-snap-slider-buttons')
       || 'button';
-    const prevSelector = this.options.prev
-      || nav.getAttribute('data-snap-slider-prev')
+    const prevSelector = nav.getAttribute('data-snap-slider-prev')
+      || this.options.prev
       || this.container.getAttribute('data-snap-slider-prev');
-    const nextSelector = this.options.next
-      || nav.getAttribute('data-snap-slider-next')
+    const nextSelector = nav.getAttribute('data-snap-slider-next')
+      || this.options.next
       || this.container.getAttribute('data-snap-slider-next');
 
     // Get buttons.

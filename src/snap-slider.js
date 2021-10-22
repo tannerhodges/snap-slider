@@ -3,7 +3,9 @@ import debounce from 'lodash/debounce';
 
 // Helpers
 import getElements from './helpers/getElements';
+import getStyle from './helpers/getStyle';
 import hasOwnProperty from './helpers/hasOwnProperty';
+import minmax from './helpers/minmax';
 import on from './helpers/on';
 import onReady from './helpers/onReady';
 import qsa from './helpers/qsa';
@@ -295,6 +297,66 @@ class SnapSlider {
   }
 
   /**
+   * Get the `scroll-snap-align` for a snap slider element.
+   *
+   * Falls back to `data-snap-slider-align` when no CSS
+   * is detected, otherwise defaults to `start`.
+   *
+   * @param  {Element}  el
+   * @return {String}
+   */
+  getSnapAlign(el) {
+    // Get element's CSS align value.
+    const style = getStyle(el, 'scrollSnapAlign');
+
+    // If browser supports Scroll Snap and slide
+    // has a non-empty value, return it.
+    if (style && style.indexOf('none') < 0) {
+      return style;
+    }
+
+    // Otherwise, assume "start" for everything.
+    return 'start';
+  }
+
+  /**
+   * Get the offset we should scroll to for a specific slide.
+   *
+   * @param  {Element}  slide
+   * @return {Object}   { top, left }
+   */
+  getScrollOffset(slide) {
+    const { container } = this;
+    const align = this.getSnapAlign(slide);
+
+    // Calculate the 'start' position by default.
+    // NOTE: This forces slides with align `none` to still snap into place.
+    let top = slide.offsetTop;
+    let left = slide.offsetLeft;
+
+    // NOTE: Because Safari uses the 2-value syntax, we simply check for matching
+    // keywords. If this causes incorrect behavior, use the `data-snap-slider-align`
+    // attribute to override our automatic CSS detection.
+    if (align.indexOf('center') >= 0) {
+      // To center a slide, start with its beginning offset (the 'start' position).
+      // Then add half the slide's size minus half the container size.
+      top = slide.offsetTop + slide.offsetHeight / 2 - container.offsetHeight / 2;
+      left = slide.offsetLeft + slide.offsetWidth / 2 - container.offsetWidth / 2;
+    } else if (align.indexOf('end') >= 0) {
+      // To align the end of a slide, start with its beginning offset (the 'start' position).
+      // Then subtract the size of the container, but add back the size of the slide.
+      top = slide.offsetTop - container.offsetHeight + slide.offsetHeight;
+      left = slide.offsetLeft - container.offsetWidth + slide.offsetWidth;
+    }
+
+    // Keep offsets within the scrollable area.
+    top = minmax(top, 0, container.scrollHeight);
+    left = minmax(left, 0, container.scrollWidth);
+
+    return { top, left };
+  }
+
+  /**
    * Get the index of the first visible slide in the slider.
    *
    * @return {Number}
@@ -338,13 +400,11 @@ class SnapSlider {
 
     this.setCurrent(index, options.ignoreCallbacks);
 
-    // TODO: WTF, Safari???
+    // TODO: When Safari gets its act together, use the magic of `scrollIntoView()`
     // slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-    // slide.scrollIntoView({ behavior: 'smooth' });
-    const scrollOptions = {
-      top: slide.offsetTop,
-      left: slide.offsetLeft,
-    };
+
+    // Until then, settle for basic `scroll()`...
+    const scrollOptions = this.getScrollOffset(slide);
 
     if (!options.immediate) {
       scrollOptions.behavior = 'smooth';

@@ -35,17 +35,6 @@ class SnapSlider {
 
     // Init.
     this.init(container, options);
-
-    // Don't construct sliders with empty containers.
-    if (!this.container) {
-      return;
-    }
-
-    // Load.
-    this.container.classList.add('has-loaded');
-
-    // Callback: `load`.
-    this.callbacks.load.forEach((fn) => fn());
   }
 
   /**
@@ -333,6 +322,7 @@ class SnapSlider {
    *
    * @param  {String|Number}  index              Starts at 1.
    * @param  {Object}         options
+   * @param  {Boolean}        options.ignoreCallbacks
    * @param  {Boolean}        options.immediate
    * @return {Boolean}
    */
@@ -346,9 +336,7 @@ class SnapSlider {
       return false;
     }
 
-    this.hasClicked = true;
-
-    this.setCurrent(index);
+    this.setCurrent(index, options.ignoreCallbacks);
 
     // TODO: WTF, Safari???
     // slide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
@@ -401,6 +389,11 @@ class SnapSlider {
     if (!slider) {
       return;
     }
+
+    // Let the rest of the slider know a click has happened.
+    // We'll wait to fire another "change" event until
+    // the selected slide becomes visible.
+    this.hasClicked = true;
 
     // Go to slide.
     slider.goto(index);
@@ -552,10 +545,17 @@ class SnapSlider {
   /**
    * Update the current index, slides, and buttons, then fire a change event.
    *
-   * @param {String|Number}  index
+   * @param  {String|Number}  index
+   * @param  {Boolean}        ignoreCallbacks
+   * @return {Number}
    */
-  setCurrent(index) {
+  setCurrent(index, ignoreCallbacks) {
     index = this.getIndexNumber(index);
+
+    // Ignore requests for slides that don't exist.
+    if (!this.getSlide(index)) {
+      return -1;
+    }
 
     // Update current index.
     this.current = index;
@@ -580,7 +580,11 @@ class SnapSlider {
     });
 
     // Callback: `change`.
-    this.callbacks.change.forEach((fn) => fn());
+    if (!ignoreCallbacks) {
+      this.callbacks.change.forEach((fn) => fn(index));
+    }
+
+    return index;
   }
 
   /**
@@ -639,7 +643,15 @@ class SnapSlider {
       }
     }
 
-    this.maybeSetCurrentDebounce();
+    if (this.hasLoaded) {
+      this.maybeSetCurrentDebounce();
+    } else {
+      // Load.
+      this.hasLoaded = true;
+      this.container.classList.add('has-loaded');
+      // Callback: `load`.
+      this.callbacks.load.forEach((fn) => fn());
+    }
   }
 
   /**
@@ -649,8 +661,10 @@ class SnapSlider {
    * @return {void}
    */
   update() {
-    // TODO: Ignore callbacks on resize events!
-    this.goto(this.current, { immediate: true });
+    this.goto(this.current, {
+      ignoreCallbacks: true,
+      immediate: true,
+    });
   }
 
   /**

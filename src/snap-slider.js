@@ -655,6 +655,38 @@ class SnapSlider {
   }
 
   /**
+   * Add callbacks to fire on specific events.
+   *
+   * @param  {String}    eventName  Event name.
+   * @param  {Function}  callback   Function w/ slider and event params (e.g., `fn(slider, event)`).
+   * @return {void}
+   */
+  on(eventName, callback) {
+    // Ignore invalid events.
+    if (!hasOwnProperty(this.callbacks, eventName)) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(`
+🚫 Whoops! Snap Slider can't add events for "${eventName}".\n
+📝 Please make sure your event matches one of the ones in this list:\n\n`, Object.keys(this.callbacks), '\n\n');
+      }
+      return;
+    }
+
+    // Ignore invalid callbacks.
+    if (typeof callback !== 'function') {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(`
+  🚫 Whoops! Snap Slider can only add functions as callbacks.\n
+  👀 It looks like you passed a "${typeof callback}" instead.\n\n`, callback, '\n\n');
+      }
+      return;
+    }
+
+    // Add the callback for our event.
+    this.callbacks[eventName].push(callback);
+  }
+
+  /**
    * Update this slider (e.g., on resize). Basically just repositions the
    * current slide.
    *
@@ -707,35 +739,13 @@ class SnapSlider {
   }
 
   /**
-   * Add callbacks to fire on specific events.
+   * Handle resize events for *all* sliders.
    *
-   * @param  {String}    eventName  Event name.
-   * @param  {Function}  callback   Function w/ slider and event params (e.g., `fn(slider, event)`).
    * @return {void}
    */
-  on(eventName, callback) {
-    // Ignore invalid events.
-    if (!hasOwnProperty(this.callbacks, eventName)) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.log(`
-🚫 Whoops! Snap Slider can't add events for "${eventName}".\n
-📝 Please make sure your event matches one of the ones in this list:\n\n`, Object.keys(this.callbacks), '\n\n');
-      }
-      return;
-    }
-
-    // Ignore invalid callbacks.
-    if (typeof callback !== 'function') {
-      if (process.env.NODE_ENV !== 'production') {
-        console.log(`
-  🚫 Whoops! Snap Slider can only add functions as callbacks.\n
-  👀 It looks like you passed a "${typeof callback}" instead.\n\n`, callback, '\n\n');
-      }
-      return;
-    }
-
-    // Add the callback for our event.
-    this.callbacks[eventName].push(callback);
+  static handleResize() {
+    // Update all sliders on the page.
+    Object.values(window._SnapSliders).forEach((slider) => slider.update());
   }
 
   /**
@@ -772,7 +782,7 @@ onReady(() => {
   on('body', 'click', '[data-snap-slider-goto]', SnapSlider.handleGoto);
 
   // Setup resize events for *all* sliders.
-  // window.addEventListener('resize', SnapSlider.handleResize);
+  window.addEventListener('resize', SnapSlider.handleResize);
 });
 
 export default SnapSlider;

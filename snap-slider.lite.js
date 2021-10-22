@@ -1052,9 +1052,7 @@ var SnapSlider = /*#__PURE__*/function () {
       container = (0,_helpers_getElements__WEBPACK_IMPORTED_MODULE_1__["default"])(container).shift(); // Don't construct sliders with empty containers.
 
       if (!container) {
-        if (true) {
-          console.log("\n\uD83D\uDEAB Whoops! Snap Slider can't find a container element matching \"".concat(this.options.container, "\".\n\n\uD83D\uDD0D Please check your selectors for typos. Make sure the element actually exists\n   in the DOM when Snap Slider tries to initialize it.\n\n\uD83D\uDC47 Here's a copy of the options you tried to initialize with for debugging:\n\n"), this.options, '\n\n');
-        }
+        if (false) {}
 
         return;
       } // Great! Now let's start initializing everything.
@@ -1701,18 +1699,14 @@ var SnapSlider = /*#__PURE__*/function () {
     value: function on(eventName, callback) {
       // Ignore invalid events.
       if (!(0,_helpers_hasOwnProperty__WEBPACK_IMPORTED_MODULE_3__["default"])(this.callbacks, eventName)) {
-        if (true) {
-          console.log("\n\uD83D\uDEAB Whoops! Snap Slider can't add events for \"".concat(eventName, "\".\n\n\uD83D\uDCDD Please make sure your event matches one of the ones in this list:\n\n"), Object.keys(this.callbacks), '\n\n');
-        }
+        if (false) {}
 
         return;
       } // Ignore invalid callbacks.
 
 
       if (typeof callback !== 'function') {
-        if (true) {
-          console.log("\n  \uD83D\uDEAB Whoops! Snap Slider can only add functions as callbacks.\n\n  \uD83D\uDC40 It looks like you passed a \"".concat(_typeof(callback), "\" instead.\n\n"), callback, '\n\n');
-        }
+        if (false) {}
 
         return;
       } // Add the callback for our event.

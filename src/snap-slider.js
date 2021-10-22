@@ -411,11 +411,11 @@ class SnapSlider {
    * Automatically hook up any buttons inside the nav.
    *
    * @param  {String|Element|Array}  navs
-   * @return {Boolean}
+   * @return {Array}
    */
   // TODO: Do we need this helper?
   addNavs(navs) {
-    getElements(navs).forEach((nav) => this.addNav(nav));
+    return getElements(navs).map((nav) => this.addNav(nav));
   }
 
   /**
@@ -423,7 +423,7 @@ class SnapSlider {
    * Automatically hook up any buttons inside the nav.
    *
    * @param  {String|Element|Array}  nav
-   * @return {Boolean}
+   * @return {Element}
    */
   addNav(nav) {
     nav = getElements(nav).shift();
@@ -475,11 +475,11 @@ class SnapSlider {
    * @param  {String|Element|Array}  buttons
    * @param  {Object}                counter
    * @param  {Number}                counter.index
-   * @return {void}
+   * @return {Array}
    */
   // TODO: How can we get rid of this counter variable?
   addGotoButtons(buttons, counter = { index: 1 }) {
-    getElements(buttons).forEach((button) => this.addGotoButton(button, counter));
+    return getElements(buttons).map((button) => this.addGotoButton(button, counter));
   }
 
   /**
@@ -488,7 +488,7 @@ class SnapSlider {
    * @param  {String|Element|Array}  button
    * @param  {Object}                counter
    * @param  {Number}                counter.index
-   * @return {void}
+   * @return {Element}
    */
   // TODO: How can we get rid of this counter variable?
   addGotoButton(button, counter = { index: 1 }) {
@@ -496,17 +496,17 @@ class SnapSlider {
 
     // Skip buttons that already have goto attributes.
     if (button.hasAttribute('data-snap-slider-goto')) {
-      return;
+      return button;
     }
 
     // Custom prev/next buttons.
     if (this.options.prev && button.matches(this.options.prev)) {
       button.setAttribute('data-snap-slider-goto', 'prev');
-      return;
+      return button;
     }
     if (this.options.next && button.matches(this.options.next)) {
       button.setAttribute('data-snap-slider-goto', 'next');
-      return;
+      return button;
     }
 
     // TODO: Make it possible to configure prev/next terms.
@@ -532,6 +532,8 @@ class SnapSlider {
       // Increment next index.
       counter.index = index + 1;
     }
+
+    return button;
   }
 
   /**

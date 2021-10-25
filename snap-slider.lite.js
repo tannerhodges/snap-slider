@@ -1111,13 +1111,16 @@ var SnapSlider = /*#__PURE__*/function () {
       this.maybeSetCurrentDebounce = lodash_debounce__WEBPACK_IMPORTED_MODULE_0___default()(this.maybeSetCurrent.bind(this), 300); // Intersection Observer.
       // TODO: Make intersection observer configurable.
 
-      this.observer = new IntersectionObserver(this.observerCallback.bind(this), {
+      this.intersectionObserver = new IntersectionObserver(this.intersectionCallback.bind(this), {
         root: this.container,
         threshold: 0.6
       });
       this.slides.forEach(function (slide) {
-        return _this.observer.observe(slide);
-      }); // References.
+        return _this.intersectionObserver.observe(slide);
+      }); // Resize Observer.
+
+      this.resizeObserver = new ResizeObserver(this.resizeCallback.bind(this));
+      this.resizeObserver.observe(this.container); // References.
 
       this.container.SnapSlider = this;
       window._SnapSliders[this.id] = this; // Go to the slide we want to start on.
@@ -1625,8 +1628,8 @@ var SnapSlider = /*#__PURE__*/function () {
      */
 
   }, {
-    key: "observerCallback",
-    value: function observerCallback(entries) {
+    key: "intersectionCallback",
+    value: function intersectionCallback(entries) {
       var _this5 = this;
 
       entries.forEach(function (entry) {
@@ -1687,6 +1690,33 @@ var SnapSlider = /*#__PURE__*/function () {
       }
     }
     /**
+     * Handle resize observer events.
+     *
+     * @param  {Array}  entries
+     * @return {void}
+     */
+
+  }, {
+    key: "resizeCallback",
+    value: function resizeCallback() {
+      this.update();
+    }
+    /**
+     * Update this slider (e.g., on resize). Basically just repositions the
+     * current slide.
+     *
+     * @return {void}
+     */
+
+  }, {
+    key: "update",
+    value: function update() {
+      this["goto"](this.current, {
+        ignoreCallbacks: true,
+        immediate: true
+      });
+    }
+    /**
      * Add callbacks to fire on specific events.
      *
      * @param  {String}    eventName  Event name.
@@ -1715,21 +1745,6 @@ var SnapSlider = /*#__PURE__*/function () {
       this.callbacks[eventName].push(callback);
     }
     /**
-     * Update this slider (e.g., on resize). Basically just repositions the
-     * current slide.
-     *
-     * @return {void}
-     */
-
-  }, {
-    key: "update",
-    value: function update() {
-      this["goto"](this.current, {
-        ignoreCallbacks: true,
-        immediate: true
-      });
-    }
-    /**
      * Destroy this slider. Stop any active transitions, remove its event
      * listeners, and delete it from our internal array of slider instances.
      *
@@ -1741,7 +1756,8 @@ var SnapSlider = /*#__PURE__*/function () {
     value: function destroy() {
       // Stop events, observers, etc.
       this.maybeSetCurrentDebounce.cancel();
-      this.observer.disconnect(); // Remove references to this slider.
+      this.intersectionObserver.disconnect();
+      this.resizeObserver.disconnect(); // Remove references to this slider.
 
       delete this.container.SnapSlider;
       delete window._SnapSliders[this.id];
@@ -1770,9 +1786,10 @@ var SnapSlider = /*#__PURE__*/function () {
       this.init(this.container, _objectSpread(_objectSpread({}, initialOptions), options));
     }
     /**
-     * Handle resize events for *all* sliders.
+     * Get the `SnapSlider` object for a slider based on its ID.
      *
-     * @return {void}
+     * @param  {String}      id
+     * @return {SnapSlider}
      */
 
   }], [{
@@ -1813,21 +1830,6 @@ var SnapSlider = /*#__PURE__*/function () {
       slider["goto"](index);
     }
   }, {
-    key: "handleResize",
-    value: function handleResize() {
-      // Update all sliders on the page.
-      Object.values(window._SnapSliders).forEach(function (slider) {
-        return slider.update();
-      });
-    }
-    /**
-     * Get the `SnapSlider` object for a slider based on its ID.
-     *
-     * @param  {String}      id
-     * @return {SnapSlider}
-     */
-
-  }, {
     key: "get",
     value: function get(id) {
       return window._SnapSliders[id];
@@ -1856,9 +1858,7 @@ if (typeof $ !== 'undefined') {
     return new SnapSlider(el);
   }); // Setup click events for *all* nav elements.
 
-  (0,_helpers_on__WEBPACK_IMPORTED_MODULE_5__["default"])('body', 'click', '[data-snap-slider-goto]', SnapSlider.handleGoto); // Setup resize events for *all* sliders.
-
-  window.addEventListener('resize', SnapSlider.handleResize);
+  (0,_helpers_on__WEBPACK_IMPORTED_MODULE_5__["default"])('body', 'click', '[data-snap-slider-goto]', SnapSlider.handleGoto);
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SnapSlider);
 })();

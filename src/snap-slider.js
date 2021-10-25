@@ -146,11 +146,17 @@ class SnapSlider {
 
     // Intersection Observer.
     // TODO: Make intersection observer configurable.
-    this.observer = new IntersectionObserver(this.observerCallback.bind(this), {
-      root: this.container,
-      threshold: 0.6,
-    });
-    this.slides.forEach((slide) => this.observer.observe(slide));
+    this.intersectionObserver = new IntersectionObserver(
+      this.intersectionCallback.bind(this), {
+        root: this.container,
+        threshold: 0.6,
+      },
+    );
+    this.slides.forEach((slide) => this.intersectionObserver.observe(slide));
+
+    // Resize Observer.
+    this.resizeObserver = new ResizeObserver(this.resizeCallback.bind(this));
+    this.resizeObserver.observe(this.container);
 
     // References.
     this.container.SnapSlider = this;
@@ -671,7 +677,7 @@ class SnapSlider {
    * @param  {Array}  entries
    * @return {void}
    */
-  observerCallback(entries) {
+  intersectionCallback(entries) {
     entries.forEach((entry) => {
       const slide = entry.target;
       const index = this.slides.indexOf(slide) + 1;
@@ -715,6 +721,29 @@ class SnapSlider {
   }
 
   /**
+   * Handle resize observer events.
+   *
+   * @param  {Array}  entries
+   * @return {void}
+   */
+  resizeCallback() {
+    this.update();
+  }
+
+  /**
+   * Update this slider (e.g., on resize). Basically just repositions the
+   * current slide.
+   *
+   * @return {void}
+   */
+  update() {
+    this.goto(this.current, {
+      ignoreCallbacks: true,
+      immediate: true,
+    });
+  }
+
+  /**
    * Add callbacks to fire on specific events.
    *
    * @param  {String}    eventName  Event name.
@@ -747,19 +776,6 @@ class SnapSlider {
   }
 
   /**
-   * Update this slider (e.g., on resize). Basically just repositions the
-   * current slide.
-   *
-   * @return {void}
-   */
-  update() {
-    this.goto(this.current, {
-      ignoreCallbacks: true,
-      immediate: true,
-    });
-  }
-
-  /**
    * Destroy this slider. Stop any active transitions, remove its event
    * listeners, and delete it from our internal array of slider instances.
    *
@@ -768,7 +784,8 @@ class SnapSlider {
   destroy() {
     // Stop events, observers, etc.
     this.maybeSetCurrentDebounce.cancel();
-    this.observer.disconnect();
+    this.intersectionObserver.disconnect();
+    this.resizeObserver.disconnect();
 
     // Remove references to this slider.
     delete this.container.SnapSlider;
@@ -796,16 +813,6 @@ class SnapSlider {
     // Destroy the slider, then re-initialize with new options.
     this.destroy();
     this.init(this.container, { ...initialOptions, ...options });
-  }
-
-  /**
-   * Handle resize events for *all* sliders.
-   *
-   * @return {void}
-   */
-  static handleResize() {
-    // Update all sliders on the page.
-    Object.values(window._SnapSliders).forEach((slider) => slider.update());
   }
 
   /**
@@ -840,9 +847,6 @@ onReady(() => {
 
   // Setup click events for *all* nav elements.
   on('body', 'click', '[data-snap-slider-goto]', SnapSlider.handleGoto);
-
-  // Setup resize events for *all* sliders.
-  window.addEventListener('resize', SnapSlider.handleResize);
 });
 
 export default SnapSlider;

@@ -599,9 +599,10 @@ describe('JS API', () => {
         // slider.on('change.keydown', arrowKeyListener);
         // slider.on('change.focusin', focusListener);
 
-        // Make sure to stop current debounce & Intersection Observer.
+        // Make sure to stop current debounce and observers.
         slider.maybeSetCurrentDebounce.cancel = cy.stub();
-        slider.observer.disconnect = cy.stub();
+        slider.intersectionObserver.disconnect = cy.stub();
+        slider.resizeObserver.disconnect = cy.stub();
 
         // // Trigger focus and arrow key to fire every event listener.
         // slides[1].focus();
@@ -621,9 +622,10 @@ describe('JS API', () => {
         // Kill it.
         slider.destroy();
 
-        // Did we stop current debounce & Intersection Observer?
+        // Did we stop current debounce and observers?
         expect(slider.maybeSetCurrentDebounce.cancel).to.be.called;
-        expect(slider.observer.disconnect).to.be.called;
+        expect(slider.intersectionObserver.disconnect).to.be.called;
+        expect(slider.resizeObserver.disconnect).to.be.called;
 
         // // Trigger focus and arrow key to fire every event listener.
         // slides[1].focus();

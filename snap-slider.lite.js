@@ -107,21 +107,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tabbable__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(tabbable__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
 /* harmony import */ var lodash_debounce__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_debounce__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(17);
+/* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(19);
 /* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _helpers_getClosestAttribute__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(18);
-/* harmony import */ var _helpers_getElements__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(19);
-/* harmony import */ var _helpers_getStyle__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(22);
-/* harmony import */ var _helpers_hasOwnProperty__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(23);
-/* harmony import */ var _helpers_isObject__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(24);
-/* harmony import */ var _helpers_minmax__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(25);
-/* harmony import */ var _helpers_on__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(26);
-/* harmony import */ var _helpers_onReady__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(27);
-/* harmony import */ var _helpers_passive__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(28);
-/* harmony import */ var _helpers_pick__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(29);
-/* harmony import */ var _helpers_qsa__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(20);
-/* harmony import */ var _helpers_toArray__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(21);
-/* harmony import */ var _helpers_values__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(30);
+/* harmony import */ var _helpers_getClosestAttribute__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(20);
+/* harmony import */ var _helpers_getElements__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(21);
+/* harmony import */ var _helpers_getStyle__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(24);
+/* harmony import */ var _helpers_hasOwnProperty__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(25);
+/* harmony import */ var _helpers_isObject__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(26);
+/* harmony import */ var _helpers_minmax__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(27);
+/* harmony import */ var _helpers_on__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(28);
+/* harmony import */ var _helpers_onReady__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(29);
+/* harmony import */ var _helpers_passive__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(30);
+/* harmony import */ var _helpers_pick__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(31);
+/* harmony import */ var _helpers_qsa__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(22);
+/* harmony import */ var _helpers_toArray__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(23);
+/* harmony import */ var _helpers_values__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(32);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -1207,7 +1207,18 @@ var SnapSlider = /*#__PURE__*/function () {
         if (slide) {
           _this10["goto"](index, null, event);
         }
-      }; // Add all our listeners.
+      }; // Resize Observer. Save so we can disconnect it during `destroy()`.
+      // Only init if browser supports it, else fallback to noop.
+
+
+      this.resizeObserver = {
+        observe: function observe() {},
+        disconnect: function disconnect() {}
+      };
+
+      if ('ResizeObserver' in window) {
+        this.resizeObserver = new ResizeObserver(this.resizeCallback.bind(this));
+      } // Add all our listeners.
       // Set timeout to avoid initial `goto` event triggering a scroll listener.
 
 
@@ -1218,7 +1229,9 @@ var SnapSlider = /*#__PURE__*/function () {
 
         _this10.container.addEventListener('keydown', _this10.arrowKeyListener);
 
-        _this10.container.addEventListener('focusin', _this10.focusListener); // Done loading!
+        _this10.container.addEventListener('focusin', _this10.focusListener);
+
+        _this10.resizeObserver.observe(_this10.container); // Done loading!
 
 
         _this10.fireEvent('load');
@@ -1267,7 +1280,8 @@ var SnapSlider = /*#__PURE__*/function () {
       this.stopTransition();
       this.container.removeEventListener('scroll', this.scrollListener);
       this.container.removeEventListener('scroll', this.scrollEndListener);
-      this.container.removeEventListener('keydown', this.arrowKeyListener); // Reset callbacks.
+      this.container.removeEventListener('keydown', this.arrowKeyListener);
+      this.resizeObserver.disconnect(); // Reset callbacks.
       // eslint-disable-next-line no-restricted-syntax
 
       for (var eventName in this.callbacks) {
@@ -1304,14 +1318,16 @@ var SnapSlider = /*#__PURE__*/function () {
       this.init(this.container, _objectSpread(_objectSpread({}, initialOptions), options));
     }
     /**
-     * Handle resize events for *all* sliders.
+     * Handle resize observer events.
      *
      * @return {void}
      */
 
   }, {
-    key: "fireEvent",
-
+    key: "resizeCallback",
+    value: function resizeCallback() {
+      this.update();
+    }
     /**
      * When an event happens, fire all the callback functions for that event.
      *
@@ -1322,6 +1338,9 @@ var SnapSlider = /*#__PURE__*/function () {
      * @param  {Boolean}  options.ignoreCallbacks
      * @return {void}
      */
+
+  }, {
+    key: "fireEvent",
     value: function fireEvent(eventName, event) {
       var _this11 = this;
 
@@ -1554,14 +1573,6 @@ var SnapSlider = /*#__PURE__*/function () {
       return index === 'prev' || index === 'next';
     }
   }, {
-    key: "handleResize",
-    value: function handleResize() {
-      // Loop through all sliders on the page.
-      Object(_helpers_values__WEBPACK_IMPORTED_MODULE_17__["default"])(window._SnapSliders).forEach(function (slider) {
-        return slider.update();
-      });
-    }
-  }, {
     key: "notFound",
     value: function notFound(element) {
       if (false) {}
@@ -1617,9 +1628,7 @@ Object(_helpers_onReady__WEBPACK_IMPORTED_MODULE_12__["default"])(function () {
     return new SnapSlider(el);
   }); // Setup click events for *all* nav elements.
 
-  Object(_helpers_on__WEBPACK_IMPORTED_MODULE_11__["default"])('body', 'click', '[data-snap-slider-goto]', SnapSlider.handleGoto); // Setup resize events for *all* sliders.
-
-  window.addEventListener('resize', SnapSlider.handleResize);
+  Object(_helpers_on__WEBPACK_IMPORTED_MODULE_11__["default"])('body', 'click', '[data-snap-slider-goto]', SnapSlider.handleGoto);
 });
 /* harmony default export */ __webpack_exports__["default"] = (SnapSlider);
 
@@ -2581,14 +2590,12 @@ module.exports = g;
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(5),
-    isSymbol = __webpack_require__(11);
+var baseTrim = __webpack_require__(11),
+    isObject = __webpack_require__(5),
+    isSymbol = __webpack_require__(13);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
-
-/** Used to match leading and trailing whitespace. */
-var reTrim = /^\s+|\s+$/g;
 
 /** Used to detect bad signed hexadecimal string values. */
 var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
@@ -2639,7 +2646,7 @@ function toNumber(value) {
   if (typeof value != 'string') {
     return value === 0 ? value : +value;
   }
-  value = value.replace(reTrim, '');
+  value = baseTrim(value);
   var isBinary = reIsBinary.test(value);
   return (isBinary || reIsOctal.test(value))
     ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
@@ -2653,8 +2660,58 @@ module.exports = toNumber;
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(12),
-    isObjectLike = __webpack_require__(16);
+var trimmedEndIndex = __webpack_require__(12);
+
+/** Used to match leading whitespace. */
+var reTrimStart = /^\s+/;
+
+/**
+ * The base implementation of `_.trim`.
+ *
+ * @private
+ * @param {string} string The string to trim.
+ * @returns {string} Returns the trimmed string.
+ */
+function baseTrim(string) {
+  return string
+    ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, '')
+    : string;
+}
+
+module.exports = baseTrim;
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports) {
+
+/** Used to match a single whitespace character. */
+var reWhitespace = /\s/;
+
+/**
+ * Used by `_.trim` and `_.trimEnd` to get the index of the last non-whitespace
+ * character of `string`.
+ *
+ * @private
+ * @param {string} string The string to inspect.
+ * @returns {number} Returns the index of the last non-whitespace character.
+ */
+function trimmedEndIndex(string) {
+  var index = string.length;
+
+  while (index-- && reWhitespace.test(string.charAt(index))) {}
+  return index;
+}
+
+module.exports = trimmedEndIndex;
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var baseGetTag = __webpack_require__(14),
+    isObjectLike = __webpack_require__(18);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -2685,12 +2742,12 @@ module.exports = isSymbol;
 
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(13),
-    getRawTag = __webpack_require__(14),
-    objectToString = __webpack_require__(15);
+var Symbol = __webpack_require__(15),
+    getRawTag = __webpack_require__(16),
+    objectToString = __webpack_require__(17);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -2719,7 +2776,7 @@ module.exports = baseGetTag;
 
 
 /***/ }),
-/* 13 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var root = __webpack_require__(7);
@@ -2731,10 +2788,10 @@ module.exports = Symbol;
 
 
 /***/ }),
-/* 14 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(13);
+var Symbol = __webpack_require__(15);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -2783,7 +2840,7 @@ module.exports = getRawTag;
 
 
 /***/ }),
-/* 15 */
+/* 17 */
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -2811,7 +2868,7 @@ module.exports = objectToString;
 
 
 /***/ }),
-/* 16 */
+/* 18 */
 /***/ (function(module, exports) {
 
 /**
@@ -2846,7 +2903,7 @@ module.exports = isObjectLike;
 
 
 /***/ }),
-/* 17 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var debounce = __webpack_require__(4),
@@ -2921,7 +2978,7 @@ module.exports = throttle;
 
 
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2947,13 +3004,13 @@ function getClosestAttribute(el, attr) {
 }
 
 /***/ }),
-/* 19 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return getElements; });
-/* harmony import */ var _qsa__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(20);
+/* harmony import */ var _qsa__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(22);
 
 /**
  * Get an array of elements from a mixed-value parameter.
@@ -2984,13 +3041,13 @@ function getElements(elements, context) {
 }
 
 /***/ }),
-/* 20 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return qsa; });
-/* harmony import */ var _toArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(21);
+/* harmony import */ var _toArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
 
 /**
  * QSA = "Query Selector All" that returns an Array instead of a NodeList.
@@ -3004,7 +3061,7 @@ function qsa(selector, context) {
 }
 
 /***/ }),
-/* 21 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3020,13 +3077,13 @@ function toArray(val) {
 }
 
 /***/ }),
-/* 22 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return getStyle; });
-/* harmony import */ var _hasOwnProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+/* harmony import */ var _hasOwnProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
 
 /**
  * Get a computed style for some element.
@@ -3046,7 +3103,7 @@ function getStyle(el, prop) {
 }
 
 /***/ }),
-/* 23 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3063,7 +3120,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 /***/ }),
-/* 24 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3080,7 +3137,7 @@ function isObject(val) {
 }
 
 /***/ }),
-/* 25 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3100,7 +3157,7 @@ function minmax(value, min, max) {
 }
 
 /***/ }),
-/* 26 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3149,7 +3206,7 @@ function on(parentSelector, eventName, childSelector, fn) {
 // });
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3170,7 +3227,7 @@ function onReady(fn) {
 }
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3209,7 +3266,7 @@ var passive = function () {
 /* harmony default export */ __webpack_exports__["default"] = (passive);
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3229,12 +3286,12 @@ function pick(obj, keys) {
 }
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _hasOwnProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+/* harmony import */ var _hasOwnProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(25);
 /* eslint-disable no-restricted-syntax, no-var, vars-on-top */
 
 /**

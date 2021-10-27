@@ -197,6 +197,7 @@ h2 {
   border: 2px solid black;
   border-radius: 6px;
   background: #fff;
+  color: inherit;
   font-family: 'Bangers', sans-serif;
   font-size: 1.25rem;
   /* Prevent accidental text selection */

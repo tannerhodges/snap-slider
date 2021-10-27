@@ -7,9 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.3] - 2021-10-26
+
+### Fixed
+
+- Fix iOS 15 resize events causing scroll jank by replacing `window.resize` with `ResizeObserver` in supported browsers.
+- Fix iOS 15 blue button colors in demo styles.
+- Fix incorrect test values for nested slider scroll position.
+- Upgrade to HTTPS npm registry.
+
+### Changed
+
+- Update `package-lock.json` with quick dependency updates.
 - Recommend "scrollfix" hack to fix browsers removing the outer margin / padding from scrollable overflow areas.
 
 ## [2.0.2] - 2020-08-11
+
+### Fixed
 
 - Remove leftover `console.log()` from the v2.0.1 align bugfix.
 
@@ -135,7 +149,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change items on click and focus for keyboard accessibility.
 - CSS falls back to simple `overflow: scroll` section.
 
-[Unreleased]: https://github.com/tannerhodges/snap-slider/compare/v2.0.2...HEAD
+[Unreleased]: https://github.com/tannerhodges/snap-slider/compare/v2.0.3...HEAD
+[2.0.3]: https://github.com/tannerhodges/snap-slider/compare/v2.0.2..v2.0.3
 [2.0.2]: https://github.com/tannerhodges/snap-slider/compare/v2.0.1..v2.0.2
 [2.0.1]: https://github.com/tannerhodges/snap-slider/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/tannerhodges/snap-slider/releases/tag/v2.0.0

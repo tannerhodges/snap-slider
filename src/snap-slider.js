@@ -1134,6 +1134,13 @@ class SnapSlider {
       }
     };
 
+    // Resize Observer. Save so we can disconnect it during `destroy()`.
+    // Only init if browser supports it, else fallback to noop.
+    this.resizeObserver = { observe: () => {}, disconnect: () => {} };
+    if ('ResizeObserver' in window) {
+      this.resizeObserver = new ResizeObserver(this.resizeCallback.bind(this));
+    }
+
     // Add all our listeners.
     // Set timeout to avoid initial `goto` event triggering a scroll listener.
     setTimeout(() => {
@@ -1141,6 +1148,7 @@ class SnapSlider {
       this.container.addEventListener('scroll', this.scrollEndListener, passive);
       this.container.addEventListener('keydown', this.arrowKeyListener);
       this.container.addEventListener('focusin', this.focusListener);
+      this.resizeObserver.observe(this.container);
 
       // Done loading!
       this.fireEvent('load');
@@ -1184,6 +1192,7 @@ class SnapSlider {
     this.container.removeEventListener('scroll', this.scrollListener);
     this.container.removeEventListener('scroll', this.scrollEndListener);
     this.container.removeEventListener('keydown', this.arrowKeyListener);
+    this.resizeObserver.disconnect();
 
     // Reset callbacks.
     // eslint-disable-next-line no-restricted-syntax
@@ -1222,13 +1231,12 @@ class SnapSlider {
   }
 
   /**
-   * Handle resize events for *all* sliders.
+   * Handle resize observer events.
    *
    * @return {void}
    */
-  static handleResize() {
-    // Loop through all sliders on the page.
-    values(window._SnapSliders).forEach((slider) => slider.update());
+  resizeCallback() {
+    this.update();
   }
 
   /**
@@ -1640,9 +1648,6 @@ onReady(() => {
 
   // Setup click events for *all* nav elements.
   on('body', 'click', '[data-snap-slider-goto]', SnapSlider.handleGoto);
-
-  // Setup resize events for *all* sliders.
-  window.addEventListener('resize', SnapSlider.handleResize);
 });
 
 export default SnapSlider;

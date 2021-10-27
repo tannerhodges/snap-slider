@@ -609,8 +609,9 @@ describe('JS API', () => {
         slider.on('change.keydown', arrowKeyListener);
         slider.on('change.focusin', focusListener);
 
-        // And make sure transitions are stopped.
+        // Make sure to stop transitions and observers.
         slider.stopTransition = cy.stub();
+        slider.resizeObserver.disconnect = cy.stub();
 
         // Trigger focus and arrow key to fire every event listener.
         slides[1].focus();
@@ -634,8 +635,9 @@ describe('JS API', () => {
         // Kill it.
         slider.destroy();
 
-        // Did we stop active transitions?
+        // Did we stop transitions and observers?
         expect(slider.stopTransition).to.be.called;
+        expect(slider.resizeObserver.disconnect).to.be.called;
 
         // Trigger focus and arrow key to fire every event listener.
         slides[1].focus();

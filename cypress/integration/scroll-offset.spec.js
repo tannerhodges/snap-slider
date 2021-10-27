@@ -39,7 +39,7 @@ describe('Scroll Offset', () => {
     // Confirm slider start positions.
     cy.getSlider('nested-example', 'outer').then(($el) => {
       const slider = $el.get(0).SnapSlider;
-      expect(slider.container.scrollLeft).to.equal(304);
+      expect(slider.container.scrollLeft).to.equal(152);
       expect(slider.container.scrollTop).to.equal(0);
     });
 

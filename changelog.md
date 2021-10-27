@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix iOS 15 resize events causing scroll jank by replacing `window.resize` with `ResizeObserver` in supported browsers.
 - Fix iOS 15 blue button colors in demo styles.
+- Fix incorrect test values for nested slider scroll position.
 - Upgrade to HTTPS npm registry.
 
 ### Changed

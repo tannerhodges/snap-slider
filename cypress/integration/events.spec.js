@@ -29,10 +29,10 @@ describe('Events', () => {
     cy.getSlider('test').then(() => expect(fn).to.not.be.called);
 
     // Scroll to trigger a change, then confirm the callback fired.
-    // NOTE: Need extra `.wait()` so `expect` happens after the callback.
+    // NOTE: Need extra `.wait()` so `expect` happens after the callback has debounced.
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.getSlider('test').scrollTo('right')
-      .wait(0)
+      .wait(350)
       .then(() => expect(fn).to.be.calledOnce);
   });
 

@@ -210,6 +210,10 @@ h2 {
 }
 
 .example-nav__button.is-current {
+  background: lightgray;
+}
+
+.example-nav__button.is-visible {
   background: blue;
   color: white;
 }
@@ -405,11 +409,8 @@ h2 {
 /* ------------------------------ */
 
 .example--2d {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (100%)[3];
   grid-template-columns: repeat(3, 100%);
-  -ms-grid-rows: (100%)[3];
   grid-template-rows: repeat(3, 100%);
   width: 20rem;
   max-width: 100%;
@@ -422,51 +423,6 @@ h2 {
   overscroll-behavior-y: contain;
 }
 
-.example--2d > *:nth-child(1) {
-  -ms-grid-row: 1;
-  -ms-grid-column: 1;
-}
-
-.example--2d > *:nth-child(2) {
-  -ms-grid-row: 1;
-  -ms-grid-column: 2;
-}
-
-.example--2d > *:nth-child(3) {
-  -ms-grid-row: 1;
-  -ms-grid-column: 3;
-}
-
-.example--2d > *:nth-child(4) {
-  -ms-grid-row: 2;
-  -ms-grid-column: 1;
-}
-
-.example--2d > *:nth-child(5) {
-  -ms-grid-row: 2;
-  -ms-grid-column: 2;
-}
-
-.example--2d > *:nth-child(6) {
-  -ms-grid-row: 2;
-  -ms-grid-column: 3;
-}
-
-.example--2d > *:nth-child(7) {
-  -ms-grid-row: 3;
-  -ms-grid-column: 1;
-}
-
-.example--2d > *:nth-child(8) {
-  -ms-grid-row: 3;
-  -ms-grid-column: 2;
-}
-
-.example--2d > *:nth-child(9) {
-  -ms-grid-row: 3;
-  -ms-grid-column: 3;
-}
-
 .example--2d .example__slide {
   width: 100%;
   height: 100%;
@@ -475,64 +431,14 @@ h2 {
 }
 
 .example-nav--2d {
-  display: -ms-grid;
   display: grid;
   grid-gap: 0.5rem;
-  -ms-grid-columns: -webkit-max-content 0.5rem -webkit-max-content 0.5rem -webkit-max-content;
-  -ms-grid-columns: max-content 0.5rem max-content 0.5rem max-content;
   grid-template-columns: repeat(3, -webkit-max-content);
   grid-template-columns: repeat(3, max-content);
-  -ms-grid-rows: -webkit-max-content 0.5rem -webkit-max-content 0.5rem -webkit-max-content;
-  -ms-grid-rows: max-content 0.5rem max-content 0.5rem max-content;
   grid-template-rows: repeat(3, -webkit-max-content);
   grid-template-rows: repeat(3, max-content);
   justify-content: center;
   margin: 0.5rem auto;
-}
-
-.example-nav--2d > *:nth-child(1) {
-  -ms-grid-row: 1;
-  -ms-grid-column: 1;
-}
-
-.example-nav--2d > *:nth-child(2) {
-  -ms-grid-row: 1;
-  -ms-grid-column: 3;
-}
-
-.example-nav--2d > *:nth-child(3) {
-  -ms-grid-row: 1;
-  -ms-grid-column: 5;
-}
-
-.example-nav--2d > *:nth-child(4) {
-  -ms-grid-row: 3;
-  -ms-grid-column: 1;
-}
-
-.example-nav--2d > *:nth-child(5) {
-  -ms-grid-row: 3;
-  -ms-grid-column: 3;
-}
-
-.example-nav--2d > *:nth-child(6) {
-  -ms-grid-row: 3;
-  -ms-grid-column: 5;
-}
-
-.example-nav--2d > *:nth-child(7) {
-  -ms-grid-row: 5;
-  -ms-grid-column: 1;
-}
-
-.example-nav--2d > *:nth-child(8) {
-  -ms-grid-row: 5;
-  -ms-grid-column: 3;
-}
-
-.example-nav--2d > *:nth-child(9) {
-  -ms-grid-row: 5;
-  -ms-grid-column: 5;
 }
 
 
@@ -594,6 +500,15 @@ h2 {
 /* ------------------------------ */
 /* Utilities                      */
 /* ------------------------------ */
+
+/**
+ * Hide scrollbars in all major browsers.
+ * @see https://stackoverflow.com/a/38994837
+ */
+/* Chrome/Safari */
+.hide-scrollbars::-webkit-scrollbar { width: 0; }
+/* Firefox */
+.hide-scrollbars { scrollbar-width: none; }
 
 /**
  * Fix overflow scroll ignoring margin/padding.

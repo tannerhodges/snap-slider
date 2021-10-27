@@ -201,6 +201,10 @@ h2 {
 }
 
 .example-nav__button.is-current {
+  background: lightgray;
+}
+
+.example-nav__button.is-visible {
   background: blue;
   color: white;
 }
@@ -482,6 +486,15 @@ h2 {
 /* ------------------------------ */
 /* Utilities                      */
 /* ------------------------------ */
+
+/**
+ * Hide scrollbars in all major browsers.
+ * @see https://stackoverflow.com/a/38994837
+ */
+/* Chrome/Safari */
+.hide-scrollbars::-webkit-scrollbar { width: 0; }
+/* Firefox */
+.hide-scrollbars { scrollbar-width: none; }
 
 /**
  * Fix overflow scroll ignoring margin/padding.

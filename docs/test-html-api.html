@@ -13,19 +13,19 @@
     <link rel="stylesheet" href="./test.css">
 
     <!-- ⚙️ Scripts -->
-    <script src="./snap-slider.min.js"></script>
+    <script src="./snap-slider.js"></script>
   </head>
   <body>
     <main>
       <h1>🚧 HTML API</h1>
-      <ul class="example" data-snap-slider="test">
+      <ul class="example hide-scrollbars" data-snap-slider="test">
         <li class="example__slide"><img src="./images/batman-sandwich.jpg" alt="" width="296" height="206"></li>
         <li class="example__slide"><img src="./images/batman-artichokes.jpg" alt="" width="296" height="206"></li>
         <li class="example__slide"><img src="./images/batman-dressing-room.jpg" alt="" width="296" height="206"></li>
         <li class="example__slide"><img src="./images/batman-bomb.jpg" alt="" width="296" height="206"></li>
       </ul>
 
-      <ul id="copy-id" class="example" data-snap-slider>
+      <ul id="copy-id" class="example hide-scrollbars" data-snap-slider>
         <li class="example__slide">Slide 1</li>
         <li class="example__slide">Slide 2</li>
         <li class="example__slide">Slide 3</li>
@@ -33,7 +33,7 @@
       </ul>
 
       <div id="default-id">
-        <ul class="example" data-snap-slider>
+        <ul class="example hide-scrollbars" data-snap-slider>
           <li class="example__slide">Slide 1</li>
           <li class="example__slide">Slide 2</li>
           <li class="example__slide">Slide 3</li>
@@ -42,7 +42,7 @@
       </div>
 
       <h2>Slides</h2>
-      <ul class="example"
+      <ul class="example hide-scrollbars"
         data-snap-slider="slides"
         data-snap-slider-slides=".example__slide">
         <li id="ignore-me">NOT a slide element.</li>
@@ -50,29 +50,6 @@
         <li class="example__slide">Slide 2</li>
         <li class="example__slide">Slide 3</li>
         <li class="example__slide">Slide 4</li>
-      </ul>
-
-      <h2>Align</h2>
-      <ul class="example disable-align"
-        data-snap-slider="align"
-        data-snap-slider-align="center">
-        <li class="example__slide">Slide 1</li>
-        <li class="example__slide">Slide 2</li>
-        <li class="example__slide">Slide 3</li>
-      </ul>
-
-      <ul class="example" data-snap-slider="align-default">
-        <li class="example__slide">Slide 1</li>
-        <li class="example__slide">Slide 2</li>
-        <li class="example__slide">Slide 3</li>
-      </ul>
-
-      <ul class="example"
-        data-snap-slider="align-fallback"
-        data-snap-slider-align="center">
-        <li class="example__slide">Slide 1</li>
-        <li class="example__slide">Slide 2</li>
-        <li class="example__slide">Slide 3</li>
       </ul>
 
       <h2>Navigation</h2>
@@ -86,7 +63,7 @@
       </ul>
 
       <h2>Buttons</h2>
-      <div class="example" data-snap-slider="ignore-buttons">
+      <div class="example hide-scrollbars" data-snap-slider="ignore-buttons">
         <div class="example__slide">
           <h3>Slide 1</h3>
           <button type="button">4</button>
@@ -98,7 +75,7 @@
         <div class="example__slide"><h3>Slide 4</h3></div>
       </div>
 
-      <div class="example"
+      <div class="example hide-scrollbars"
         data-snap-slider="specify-buttons"
         data-snap-slider-slides=".example__slide"
         data-snap-slider-buttons=".only-these-buttons">
@@ -135,7 +112,7 @@
 
       <br>
 
-      <div class="example" data-snap-slider="goto-buttons">
+      <div class="example hide-scrollbars" data-snap-slider="goto-buttons">
         <div class="example__slide">
           <h3>Slide 1</h3>
           <button data-snap-slider-goto="4" type="button">4</button>
@@ -155,7 +132,7 @@
       </ul>
 
       <h2>Start</h2>
-      <ul class="example"
+      <ul class="example hide-scrollbars"
         data-snap-slider="start"
         data-snap-slider-start="middle">
         <li class="example__slide">Slide 1</li>
@@ -165,7 +142,7 @@
       </ul>
 
       <h2>Loop</h2>
-      <ul class="example"
+      <ul class="example hide-scrollbars"
         data-snap-slider="loop"
         data-snap-slider-loop="true">
         <li class="example__slide">Slide 1</li>

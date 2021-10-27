@@ -7,3 +7,4 @@ report.html
 
 # Cypress
 cypress/videos/
+cypress/screenshots/

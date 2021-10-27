@@ -43,45 +43,6 @@ describe('HTML API', () => {
     });
   });
 
-  it('`[data-snap-slider-align]` specifies the CSS align value for older browsers', () => {
-    // Confirm slider start position, then go to the middle slide.
-    cy.getSlider('align').then(($el) => {
-      const slider = $el.get(0).SnapSlider;
-
-      expect(slider.container.scrollLeft).to.equal(0);
-
-      slider.goto('middle');
-    });
-
-    // Confirm slider position.
-    cy.getSlider('align').invoke('scrollLeft').should('equal', 152);
-  });
-
-  it('`[data-snap-slider-align]` is empty by default', () => {
-    cy.getSlider('align-default').then(($el) => {
-      const slider = $el.get(0).SnapSlider;
-
-      expect(slider.container.getAttribute('data-snap-slider-align')).to.equal('');
-    });
-  });
-
-  it('`[data-snap-slider-align]` only applies when CSS Scroll Snap is not supported', () => {
-    // Confirm slider start position, then go to the middle slide.
-    cy.getSlider('align-fallback').then(($el) => {
-      const slider = $el.get(0).SnapSlider;
-
-      expect(slider.container.scrollLeft).to.equal(0);
-
-      slider.goto('middle');
-    });
-
-    // Confirm slider position.
-    // NOTE: This test needs to be manually checked in Safari.
-    // Currently, Chrome snaps on JS scroll but Safari does not.
-    // Safari stays wherever JS scrolled it instead of snapping.
-    cy.getSlider('align').invoke('scrollLeft').should('equal', 0);
-  });
-
   it('`[data-snap-slider-nav]` inits nav elements', () => {
     // We know the nav loaded correctly if all its buttons
     // have `[data-snap-slider-goto]` attributes.
@@ -140,6 +101,10 @@ describe('HTML API', () => {
     cy.get('#ignore-override-buttons button')
       .should('not.have.attr', 'data-snap-slider-goto');
   });
+
+  // TODO: Prev/next buttons.
+  // data-snap-slider-prev
+  // data-snap-slider-next
 
   it('`[data-snap-slider-goto="<SLIDE>"]` inits goto buttons in a container or nav element', () => {
     // Make sure slider hasn't scrolled yet.

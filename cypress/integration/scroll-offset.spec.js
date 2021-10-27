@@ -16,7 +16,7 @@ describe('Scroll Offset', () => {
 
     // Confirm slider position.
     cy.getSlider('vertical-example').invoke('scrollLeft').should('equal', 0);
-    cy.getSlider('vertical-example').invoke('scrollTop').should('equal', 320);
+    cy.getSlider('vertical-example').invoke('scrollTop').should('equal', 288);
   });
 
   it('works with 2D sliders', () => {
@@ -25,14 +25,14 @@ describe('Scroll Offset', () => {
       const slider = $el.get(0).SnapSlider;
 
       expect(slider.container.scrollLeft).to.equal(320);
-      expect(slider.container.scrollTop).to.equal(240);
+      expect(slider.container.scrollTop).to.equal(224);
 
       slider.goto('last');
     });
 
     // Confirm slider position.
     cy.getSlider('2d-example').invoke('scrollLeft').should('equal', 640);
-    cy.getSlider('2d-example').invoke('scrollTop').should('equal', 480);
+    cy.getSlider('2d-example').invoke('scrollTop').should('equal', 448);
   });
 
   it('works with nested sliders', () => {
